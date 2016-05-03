@@ -35,7 +35,7 @@ def token_for(_client):
             self.app_id        = opts.get('app_id')
             self.account_id    = opts.get('account_id')
 
-        def post(self, body = None, **kwargs):
+        def post(self, url, body = None, **kwargs):
             body = kwargs if body is None else body
             if _contains_file(body):
                 files = [(k, v) for k, v in _items_or_iteritems(body) if _contains_file(v)]
