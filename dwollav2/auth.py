@@ -6,7 +6,26 @@ except ImportError:
 import requests
 
 from dwollav2.error import Error
+from dwollav2.version import version
 
+
+def _is_error(res):
+    try:
+        return 'error' in res.json()
+    except:
+        return True
+
+def _request_token(client, payload):
+    headers = {
+        'user-agent': 'dwolla-v2-python %s' % version
+    }
+    res = requests.post(client.token_url, data=payload, headers=headers)
+    if _is_error(res):
+        raise Error.map(res)
+    token = client.Token(res.json())
+    if client.on_grant is not None:
+        client.on_grant(token)
+    return token
 
 def auth_for(_client):
     class Auth:
@@ -15,28 +34,22 @@ def auth_for(_client):
             self.scope = kwargs.get('scope')
             self.state = kwargs.get('state')
 
+        @property
         def url(self):
-            return '%s?%s' % (_client.auth_url(), urlencode(self._query()))
+            return '%s?%s' % (_client.auth_url, urlencode(self._query()))
 
         def callback(self, params):
             if params.get('state') != self.state:
                 raise ValueError('invalid state')
             if 'error' in params:
                 raise Error.map(params)
-            payload = {
+            return _request_token(_client, {
                 'client_id': _client.id,
                 'client_secret': _client.secret,
                 'grant_type': 'authorization_code',
                 'code': params['code'],
                 'redirect_uri': self.redirect_uri
-            }
-            res = requests.post(_client.token_url(), data=payload)
-            if Auth.is_error(res):
-                raise Error.map(res)
-            token = _client.Token(res.json())
-            if _client.on_grant is not None:
-                _client.on_grant(token)
-            return token
+            })
 
         def _query(self):
             d = {
@@ -50,24 +63,19 @@ def auth_for(_client):
 
         @staticmethod
         def client():
-            payload = {
+            return _request_token(_client, {
                 'client_id': _client.id,
                 'client_secret': _client.secret,
                 'grant_type': 'client_credentials'
-            }
-            res = requests.post(_client.token_url(), data=payload)
-            if Auth.is_error(res):
-                raise Error.map(res)
-            token = _client.Token(res.json())
-            if _client.on_grant is not None:
-                _client.on_grant(token)
-            return token
+            })
 
         @staticmethod
-        def is_error(res):
-            try:
-                return 'error' in res.json()
-            except:
-                return True
+        def refresh(token):
+            return _request_token(_client, {
+                'client_id': _client.id,
+                'client_secret': _client.secret,
+                'grant_type': 'refresh_token',
+                'refresh_token': token.refresh_token
+            })
 
     return Auth

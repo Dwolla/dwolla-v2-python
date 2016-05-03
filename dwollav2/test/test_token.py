@@ -35,7 +35,7 @@ class TokenShould(unittest2.TestCase):
     @responses.activate
     def test_get_success(self):
         responses.add(responses.GET,
-                      self.client.api_url() + '/foo',
+                      self.client.api_url + '/foo',
                       body='{"foo": "bar"}',
                       status=200,
                       content_type='application/vnd.dwolla.v1.hal+json')
@@ -47,7 +47,7 @@ class TokenShould(unittest2.TestCase):
     @responses.activate
     def test_get_success_leading_slash(self):
         responses.add(responses.GET,
-                      self.client.api_url() + '/foo',
+                      self.client.api_url + '/foo',
                       body='{"foo": "bar"}',
                       status=200,
                       content_type='application/vnd.dwolla.v1.hal+json')
@@ -59,19 +59,19 @@ class TokenShould(unittest2.TestCase):
     @responses.activate
     def test_get_success_full_url(self):
         responses.add(responses.GET,
-                      self.client.api_url() + '/foo',
+                      self.client.api_url + '/foo',
                       body='{"foo": "bar"}',
                       status=200,
                       content_type='application/vnd.dwolla.v1.hal+json')
         token = self.client.Token(access_token=self.access_token)
-        res = token.get(self.client.api_url() + '/foo')
+        res = token.get(self.client.api_url + '/foo')
         self.assertEqual(200, res.status)
         self.assertEqual({'foo': 'bar'}, res.body)
 
     @responses.activate
     def test_get_error(self):
         responses.add(responses.GET,
-                      self.client.api_url() + '/foo',
+                      self.client.api_url + '/foo',
                       body='{"error": "bad"}',
                       status=400,
                       content_type='application/vnd.dwolla.v1.hal+json')
@@ -82,7 +82,7 @@ class TokenShould(unittest2.TestCase):
     @responses.activate
     def test_post_success(self):
         responses.add(responses.POST,
-                      self.client.api_url() + '/foo',
+                      self.client.api_url + '/foo',
                       body='{"foo": "bar"}',
                       status=200,
                       content_type='application/vnd.dwolla.v1.hal+json')
@@ -94,7 +94,7 @@ class TokenShould(unittest2.TestCase):
     @responses.activate
     def test_delete_success(self):
         responses.add(responses.DELETE,
-                      self.client.api_url() + '/foo',
+                      self.client.api_url + '/foo',
                       body='{"foo": "bar"}',
                       status=200,
                       content_type='application/vnd.dwolla.v1.hal+json')

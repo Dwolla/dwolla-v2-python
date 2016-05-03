@@ -26,12 +26,15 @@ class Client:
         self.Auth = auth_for(self)
         self.Token = token_for(self)
 
+    @property
     def auth_url(self):
         return self.ENVIRONMENTS[self.environment]['auth_url']
 
+    @property
     def token_url(self):
         return self.ENVIRONMENTS[self.environment]['token_url']
 
+    @property
     def api_url(self):
         return self.ENVIRONMENTS[self.environment]['api_url']
 

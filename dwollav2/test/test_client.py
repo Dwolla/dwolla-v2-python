@@ -30,12 +30,12 @@ class ClientShould(unittest2.TestCase):
 
     def test_auth_url(self):
         client = dwollav2.Client(id = self.id, secret = self.secret)
-        self.assertEqual(client.ENVIRONMENTS[client.environment]['auth_url'], client.auth_url())
+        self.assertEqual(client.ENVIRONMENTS[client.environment]['auth_url'], client.auth_url)
 
     def test_token_url(self):
         client = dwollav2.Client(id = self.id, secret = self.secret)
-        self.assertEqual(client.ENVIRONMENTS[client.environment]['token_url'], client.token_url())
+        self.assertEqual(client.ENVIRONMENTS[client.environment]['token_url'], client.token_url)
 
     def test_api_url(self):
         client = dwollav2.Client(id = self.id, secret = self.secret)
-        self.assertEqual(client.ENVIRONMENTS[client.environment]['api_url'], client.api_url())
+        self.assertEqual(client.ENVIRONMENTS[client.environment]['api_url'], client.api_url)

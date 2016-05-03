@@ -31,15 +31,15 @@ class AuthShould(unittest2.TestCase):
         auth = self.client.Auth(redirect_uri = self.redirect_uri,
                                 scope = self.scope,
                                 state = self.state)
-        expected_url = '%s' % self.client.auth_url()
-        self.assertEqual(expected_url, auth.url())
+        expected_url = '%s' % self.client.auth_url
+        self.assertEqual(expected_url, auth.url)
 
     def test_instance_url(self):
         auth = self.client.Auth(redirect_uri = self.redirect_uri,
                                 scope = self.scope,
                                 state = self.state)
-        expected_url = self.client.auth_url() + '?' + self._expected_query(self.client, auth)
-        self.assertEqual(expected_url, auth.url())
+        expected_url = self.client.auth_url + '?' + self._expected_query(self.client, auth)
+        self.assertEqual(expected_url, auth.url)
 
     def test_instance_callback_raises_error_if_state_mismatch(self):
         auth = self.client.Auth(redirect_uri = self.redirect_uri,
@@ -63,7 +63,7 @@ class AuthShould(unittest2.TestCase):
                                 scope = self.scope,
                                 state = self.state)
         responses.add(responses.POST,
-                      self.client.token_url(),
+                      self.client.token_url,
                       body='{"access_token": "abc"}',
                       status=200,
                       content_type='application/json')
@@ -78,7 +78,7 @@ class AuthShould(unittest2.TestCase):
                                 scope = self.scope,
                                 state = self.state)
         responses.add(responses.POST,
-                      self.client.token_url(),
+                      self.client.token_url,
                       body='{"error": "bad"}',
                       status=200,
                       content_type='application/json')
@@ -87,9 +87,24 @@ class AuthShould(unittest2.TestCase):
             auth.callback(params)
 
     @responses.activate
+    def test_instance_callback_success_with_none_on_grant(self):
+        client = dwollav2.Client(id='id', secret='secret')
+        auth = client.Auth(redirect_uri = self.redirect_uri,
+                           scope = self.scope,
+                           state = self.state)
+        responses.add(responses.POST,
+                      client.token_url,
+                      body='{"access_token": "abc"}',
+                      status=200,
+                      content_type='application/json')
+        params = {'state': self.state, 'code': 'def'}
+        token = auth.callback(params)
+        self.assertEqual('abc', token.access_token)
+
+    @responses.activate
     def test_class_client_success(self):
         responses.add(responses.POST,
-                      self.client.token_url(),
+                      self.client.token_url,
                       body='{"access_token": "abc"}',
                       status=200,
                       content_type='application/json')
@@ -100,7 +115,7 @@ class AuthShould(unittest2.TestCase):
     @responses.activate
     def test_class_client_error(self):
         responses.add(responses.POST,
-                      self.client.token_url(),
+                      self.client.token_url,
                       body='{"error": "bad"}',
                       status=200,
                       content_type='application/json')
@@ -108,19 +123,27 @@ class AuthShould(unittest2.TestCase):
             self.client.Auth.client()
 
     @responses.activate
-    def test_instance_callback_success_with_none_on_grant(self):
-        client = dwollav2.Client(id='id', secret='secret')
-        auth = client.Auth(redirect_uri = self.redirect_uri,
-                           scope = self.scope,
-                           state = self.state)
+    def test_class_refresh_success(self):
         responses.add(responses.POST,
-                      client.token_url(),
+                      self.client.token_url,
                       body='{"access_token": "abc"}',
                       status=200,
                       content_type='application/json')
-        params = {'state': self.state, 'code': 'def'}
-        token = auth.callback(params)
+        old_token = self.client.Token(refresh_token = 'refresh token')
+        token = self.client.Auth.refresh(old_token)
         self.assertEqual('abc', token.access_token)
+        self.client.on_grant.assert_called_with(token)
+
+    @responses.activate
+    def test_class_refresh_error(self):
+        responses.add(responses.POST,
+                      self.client.token_url,
+                      body='{"error": "bad"}',
+                      status=200,
+                      content_type='application/json')
+        old_token = self.client.Token(refresh_token = 'refresh token')
+        with self.assertRaises(dwollav2.Error):
+            self.client.Auth.refresh(old_token)
 
     def _expected_query(self, client, auth):
         d = {
