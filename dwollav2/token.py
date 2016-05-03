@@ -3,9 +3,15 @@ import requests
 from dwollav2.response import Response
 
 
+def _items_or_iteritems(o):
+    try:
+        return o.iteritems()
+    except:
+        return o.items()
+
 def _contains_file(o):
     if isinstance(o, dict):
-        for k, v in o.iteritems():
+        for k, v in _items_or_iteritems(o):
             if _contains_file(v):
                 return True
         return False
@@ -30,8 +36,8 @@ def token_for(_client):
 
         def post(self, url, body={}):
             if _contains_file(body):
-                files = [(k, v) for k, v in body.iteritems() if _contains_file(v)]
-                data = [(k, v) for k, v in body.iteritems() if not _contains_file(v)]
+                files = [(k, v) for k, v in _items_or_iteritems(body) if _contains_file(v)]
+                data = [(k, v) for k, v in _items_or_iteritems(body) if not _contains_file(v)]
                 return Response(requests.post(self._full_url(url), headers=self._headers(), files=files, data=data))
             else:
                 return Response(requests.post(self._full_url(url), headers=self._headers(), json=body))

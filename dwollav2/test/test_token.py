@@ -45,7 +45,7 @@ class TokenShould(unittest2.TestCase):
         self.assertEqual({'foo': 'bar'}, res.body)
 
     @responses.activate
-    def test_get_success_2(self):
+    def test_get_success_leading_slash(self):
         responses.add(responses.GET,
                       self.client.api_url() + '/foo',
                       body='{"foo": "bar"}',
@@ -57,7 +57,7 @@ class TokenShould(unittest2.TestCase):
         self.assertEqual({'foo': 'bar'}, res.body)
 
     @responses.activate
-    def test_get_success_3(self):
+    def test_get_success_full_url(self):
         responses.add(responses.GET,
                       self.client.api_url() + '/foo',
                       body='{"foo": "bar"}',
@@ -80,23 +80,25 @@ class TokenShould(unittest2.TestCase):
             token.get('foo')
 
     @responses.activate
-    def test_get_error(self):
-        responses.add(responses.GET,
+    def test_post_success(self):
+        responses.add(responses.POST,
                       self.client.api_url() + '/foo',
-                      body='{"error": "bad"}',
-                      status=400,
+                      body='{"foo": "bar"}',
+                      status=200,
                       content_type='application/vnd.dwolla.v1.hal+json')
         token = self.client.Token(access_token=self.access_token)
-        with self.assertRaises(dwollav2.Error):
-            token.get('/foo')
+        res = token.post('foo')
+        self.assertEqual(200, res.status)
+        self.assertEqual({'foo': 'bar'}, res.body)
 
     @responses.activate
-    def test_get_error(self):
-        responses.add(responses.GET,
+    def test_delete_success(self):
+        responses.add(responses.DELETE,
                       self.client.api_url() + '/foo',
-                      body='{"error": "bad"}',
-                      status=400,
+                      body='{"foo": "bar"}',
+                      status=200,
                       content_type='application/vnd.dwolla.v1.hal+json')
         token = self.client.Token(access_token=self.access_token)
-        with self.assertRaises(dwollav2.Error):
-            token.get(self.client.api_url() + '/foo')
+        res = token.delete('foo')
+        self.assertEqual(200, res.status)
+        self.assertEqual({'foo': 'bar'}, res.body)
