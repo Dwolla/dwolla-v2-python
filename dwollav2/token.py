@@ -1,4 +1,5 @@
 import requests
+from io import IOBase
 
 from dwollav2.response import Response
 from dwollav2.version import version
@@ -22,7 +23,7 @@ def _contains_file(o):
                 return True
         return False
     else:
-        return isinstance(o, file)
+        return isinstance(o, IOBase)
 
 def token_for(_client):
     class Token:

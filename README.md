@@ -96,16 +96,17 @@ For example:
 [authorization_code]: https://tools.ietf.org/html/rfc6749#section-4.1
 
 ```python
-#
-client.Auth(redirect_uri = 'https://yoursite.com/callback',
-            scope = 'ManageCustomers|Funding',
-            state = binascii.b2a_hex(os.urandom(15)))
+# http://www.twobotechnologies.com/blog/2014/02/importance-of-state-in-oauth2.html
+state = binascii.b2a_hex(os.urandom(15))
+auth = client.Auth(redirect_uri = 'https://yoursite.com/callback',
+                   scope = 'ManageCustomers|Funding',
+                   state = state)
 
 # redirect the user to dwolla.com for authorization
 redirect_to(auth.url)
 
 # exchange the code for a token
-token = auth.callback(request.GET)
+token = auth.callback({'code': '...', 'state': state})
 ```
 
 ### Refreshing tokens
