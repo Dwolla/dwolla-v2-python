@@ -44,7 +44,6 @@ An `on_grant` callback is useful for storing new tokens when they are granted. T
 callback is called with the `Token` that was just granted by the server.
 
 ```python
-# config/initializers/dwolla.rb
 client = dwollav2.Client(
   id = os.environ['DWOLLA_ID'],
   secret = os.environ['DWOLLA_SECRET'],
