@@ -11,6 +11,7 @@ class TokenShould(unittest2.TestCase):
     expires_in = 123
     scope = 'scope'
     account_id = 'account id'
+    more_headers = {'idempotency-key': 'foo'}
 
     def test_sets_access_token(self):
         token = self.client.Token(access_token=self.access_token)
@@ -80,6 +81,18 @@ class TokenShould(unittest2.TestCase):
             token.get('foo')
 
     @responses.activate
+    def test_get_with_headers_success(self):
+        responses.add(responses.GET,
+                      self.client.api_url + '/foo',
+                      body='{"foo": "bar"}',
+                      status=200,
+                      content_type='application/vnd.dwolla.v1.hal+json')
+        token = self.client.Token(access_token=self.access_token)
+        res = token.get('foo', None, self.more_headers)
+        self.assertEqual(200, res.status)
+        self.assertEqual({'foo': 'bar'}, res.body)
+
+    @responses.activate
     def test_post_success(self):
         responses.add(responses.POST,
                       self.client.api_url + '/foo',
@@ -92,6 +105,18 @@ class TokenShould(unittest2.TestCase):
         self.assertEqual({'foo': 'bar'}, res.body)
 
     @responses.activate
+    def test_post_with_headers_success(self):
+        responses.add(responses.POST,
+                      self.client.api_url + '/foo',
+                      body='{"foo": "bar"}',
+                      status=200,
+                      content_type='application/vnd.dwolla.v1.hal+json')
+        token = self.client.Token(access_token=self.access_token)
+        res = token.post('foo', None, self.more_headers)
+        self.assertEqual(200, res.status)
+        self.assertEqual({'foo': 'bar'}, res.body)
+
+    @responses.activate
     def test_delete_success(self):
         responses.add(responses.DELETE,
                       self.client.api_url + '/foo',
@@ -100,5 +125,17 @@ class TokenShould(unittest2.TestCase):
                       content_type='application/vnd.dwolla.v1.hal+json')
         token = self.client.Token(access_token=self.access_token)
         res = token.delete('foo')
+        self.assertEqual(200, res.status)
+        self.assertEqual({'foo': 'bar'}, res.body)
+
+    @responses.activate
+    def test_delete_with_headers_success(self):
+        responses.add(responses.DELETE,
+                      self.client.api_url + '/foo',
+                      body='{"foo": "bar"}',
+                      status=200,
+                      content_type='application/vnd.dwolla.v1.hal+json')
+        token = self.client.Token(access_token=self.access_token)
+        res = token.delete('foo', None, self.more_headers)
         self.assertEqual(200, res.status)
         self.assertEqual({'foo': 'bar'}, res.body)
