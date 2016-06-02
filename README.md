@@ -150,6 +150,17 @@ token.put('resource', foo = 'bar')
 token.delete('resource')
 ```
 
+#### Setting headers
+
+To set additional headers on a request you can pass a `dict` of headers as the 3rd argument.
+
+For example:
+
+```python
+token.post('customers', { 'firstName': 'John', 'lastName': 'Doe', 'email': 'jd@doe.com' },
+                        { 'Idempotency-Key': 'a52fcf63-0730-41c3-96e8-7147b5d1fb01' })
+```
+
 ## Responses
 
 Requests return a `Response`.
@@ -231,3 +242,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/Dwolla
 ## License
 
 The package is available as open source under the terms of the [MIT License](https://github.com/Dwolla/dwolla-v2-python).
+
+## Changelog
+
+- **1.1.0** Support per-request headers
