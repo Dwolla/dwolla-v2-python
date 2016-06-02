@@ -5,6 +5,11 @@ from dwollav2.response import Response
 from dwollav2.version import version
 
 
+def _merge(x, y):
+    z = x.copy()
+    z.update(y)
+    return z
+
 def _items_or_iteritems(o):
     try:
         return o.iteritems()
@@ -53,11 +58,11 @@ def token_for(_client):
             return Response(requests.delete(self._full_url(url), headers=self._headers(headers), params=params))
 
         def _headers(self, headers):
-            return dict({
+            return _merge({
                 'accept': 'application/vnd.dwolla.v1.hal+json',
                 'authorization': 'Bearer %s' % self.access_token,
                 'user-agent': 'dwolla-v2-python %s' % version
-            }.items() + headers.items())
+            }, headers)
 
         def _full_url(self, path):
             if isinstance(path, dict):
