@@ -245,4 +245,5 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **1.1.1** Add MANIFEST.in
 - **1.1.0** Support per-request headers
