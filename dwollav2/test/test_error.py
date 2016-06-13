@@ -55,6 +55,8 @@ class ErrorShould(unittest2.TestCase):
         self._test_maps_code_to_error('invalid_client', dwollav2.InvalidClientError)
         self._test_maps_code_to_error('method_not_allowed', dwollav2.MethodNotAllowedError)
         self._test_maps_code_to_error('ValidationError', dwollav2.ValidationError)
+        self._test_maps_code_to_error('TooManyRequests', dwollav2.TooManyRequestsError)
+        self._test_maps_code_to_error('Conflict', dwollav2.ConflictError)
 
     def _test_maps_code_to_error(self, code, klass):
         error = {'error': code}

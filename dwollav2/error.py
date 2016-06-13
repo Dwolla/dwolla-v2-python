@@ -45,7 +45,9 @@ class Error(Exception):
             'unsupported_response_type': UnsupportedResponseTypeError,
             'invalid_client':            InvalidClientError,
             'method_not_allowed':        MethodNotAllowedError,
-            'ValidationError':           ValidationError
+            'ValidationError':           ValidationError,
+            'TooManyRequests':           TooManyRequestsError,
+            'Conflict':                  ConflictError
         }.get(c, Error)(res)
 
     def _get_body(self, res):
@@ -121,4 +123,10 @@ class MethodNotAllowedError(Error):
     pass
 
 class ValidationError(Error):
+    pass
+
+class TooManyRequestsError(Error):
+    pass
+
+class ConflictError(Error):
     pass

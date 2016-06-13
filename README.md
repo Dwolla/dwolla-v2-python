@@ -227,6 +227,8 @@ except dwollav2.Error:
 - `dwollav2.InvalidClientError`
 - `dwollav2.MethodNotAllowedError`
 - `dwollav2.ValidationError`
+- `dwollav2.TooManyRequestsError`
+- `dwollav2.ConflictError`
 
 ## Development
 
@@ -245,5 +247,6 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **1.1.2** Add `TooManyRequestsError` and `ConflictError`
 - **1.1.1** Add MANIFEST.in
 - **1.1.0** Support per-request headers
