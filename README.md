@@ -247,6 +247,7 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **1.1.5** Fix file upload bug when using with Python 2 ([#6](https://github.com/Dwolla/dwolla-v2-python/issues/6))
 - **1.1.2** Add `TooManyRequestsError` and `ConflictError`
 - **1.1.1** Add MANIFEST.in
 - **1.1.0** Support per-request headers

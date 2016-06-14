@@ -16,6 +16,12 @@ def _items_or_iteritems(o):
     except:
         return o.items()
 
+def _is_a_file(o):
+    try:
+        return isinstance(o, file)
+    except NameError as e:
+        return isinstance(o, IOBase)
+
 def _contains_file(o):
     if isinstance(o, dict):
         for k, v in _items_or_iteritems(o):
@@ -28,7 +34,7 @@ def _contains_file(o):
                 return True
         return False
     else:
-        return isinstance(o, IOBase)
+        return _is_a_file(o)
 
 def token_for(_client):
     class Token:
