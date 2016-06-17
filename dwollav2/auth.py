@@ -9,6 +9,10 @@ from dwollav2.error import Error
 from dwollav2.version import version
 
 
+session = requests.session()
+session.headers.update({'user-agent': 'dwolla-v2-python %s' % version})
+
+
 def _is_error(res):
     try:
         return 'error' in res.json()
@@ -16,10 +20,7 @@ def _is_error(res):
         return True
 
 def _request_token(client, payload):
-    headers = {
-        'user-agent': 'dwolla-v2-python %s' % version
-    }
-    res = requests.post(client.token_url, data=payload, headers=headers)
+    res = session.post(client.token_url, data=payload)
     if _is_error(res):
         raise Error.map(res)
     token = client.Token(res.json())
