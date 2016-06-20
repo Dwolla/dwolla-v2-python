@@ -5,10 +5,12 @@ from dwollav2.response import Response
 from dwollav2.version import version
 
 
-def _merge(x, y):
-    z = x.copy()
-    z.update(y)
-    return z
+session = requests.session()
+session.headers.update({
+    'accept': 'application/vnd.dwolla.v1.hal+json',
+    'user-agent': 'dwolla-v2-python %s' % version
+})
+
 
 def _items_or_iteritems(o):
     try:
@@ -46,29 +48,25 @@ def token_for(_client):
             self.scope         = opts.get('scope')
             self.app_id        = opts.get('app_id')
             self.account_id    = opts.get('account_id')
+            session.headers.update({
+                'authorization': 'Bearer %s' % self.access_token
+            })
 
         def post(self, url, body = None, headers = {}, **kwargs):
             body = kwargs if body is None else body
             if _contains_file(body):
                 files = [(k, v) for k, v in _items_or_iteritems(body) if _contains_file(v)]
                 data = [(k, v) for k, v in _items_or_iteritems(body) if not _contains_file(v)]
-                return Response(requests.post(self._full_url(url), headers=self._headers(headers), files=files, data=data))
+                return Response(session.post(self._full_url(url), headers=headers, files=files, data=data))
             else:
-                return Response(requests.post(self._full_url(url), headers=self._headers(headers), json=body))
+                return Response(session.post(self._full_url(url), headers=headers, json=body))
 
         def get(self, url, params = None, headers = {}, **kwargs):
             params = kwargs if params is None else params
-            return Response(requests.get(self._full_url(url), headers=self._headers(headers), params=params))
+            return Response(session.get(self._full_url(url), headers=headers, params=params))
 
         def delete(self, url, params = None, headers = {}):
-            return Response(requests.delete(self._full_url(url), headers=self._headers(headers), params=params))
-
-        def _headers(self, headers):
-            return _merge({
-                'accept': 'application/vnd.dwolla.v1.hal+json',
-                'authorization': 'Bearer %s' % self.access_token,
-                'user-agent': 'dwolla-v2-python %s' % version
-            }, headers)
+            return Response(session.delete(self._full_url(url), headers=headers, params=params))
 
         def _full_url(self, path):
             if isinstance(path, dict):
