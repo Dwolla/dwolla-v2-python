@@ -65,6 +65,10 @@ tokens can be created using the [`client_credentials`][client_credentials] OAuth
 
 [client_credentials]: https://tools.ietf.org/html/rfc6749#section-4.4
 
+**Note:** If an application has the `ManageCustomers` scope enabled, it can also be used to access
+the API for White Label Customer related endpoints. Keep in mind, the application must belong to
+same Dwolla account that will be used when creating and managing White Label Customers in the API.
+
 ```python
 application_token = client.Auth.client()
 ```
@@ -99,13 +103,13 @@ For example:
 state = binascii.b2a_hex(os.urandom(15))
 auth = client.Auth(redirect_uri = 'https://yoursite.com/callback',
                    scope = 'ManageCustomers|Funding',
-                   state = state)
+                   state = state) # optional
 
 # redirect the user to dwolla.com for authorization
 redirect_to(auth.url)
 
-# exchange the code for a token
-token = auth.callback({'code': '...', 'state': state})
+# exchange the code for a token using the variables provided to the redirect_uri in the query string
+token = auth.callback(req.GET)
 ```
 
 ### Refreshing tokens
@@ -117,7 +121,7 @@ Tokens with a `refresh_token` can be refreshed using `client.Auth.refresh`, whic
 new_token = client.Auth.refresh(expired_token)
 ```
 
-### Initializing tokens:
+### Initializing pre-existing tokens:
 
 `Token`s can be initialized with the following attributes:
 
