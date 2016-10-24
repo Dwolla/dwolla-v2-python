@@ -151,6 +151,8 @@ class AuthShould(unittest2.TestCase):
             'client_id': client.id,
             'redirect_uri': auth.redirect_uri,
             'scope': auth.scope,
-            'state': auth.state
+            'state': auth.state,
+            'verified_account': auth.verified_account,
+            'dwolla_landing': auth.dwolla_landing
         }
         return urlencode(dict((k, v) for k, v in iter(d.items()) if v))
