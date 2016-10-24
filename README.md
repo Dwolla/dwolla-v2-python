@@ -257,6 +257,7 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **1.1.8** Support `verified_account` and `dwolla_landing` auth flags
 - **1.1.7** Use session over connections for [performance improvement](http://docs.python-requests.org/en/master/user/advanced/#session-objects) ([#8](https://github.com/Dwolla/dwolla-v2-python/pull/8) - Thanks @bfeeser!)
 - **1.1.5** Fix file upload bug when using with Python 2 ([#6](https://github.com/Dwolla/dwolla-v2-python/issues/6))
 - **1.1.2** Add `TooManyRequestsError` and `ConflictError`
