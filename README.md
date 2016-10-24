@@ -98,12 +98,18 @@ For example:
 
 [authorization_code]: https://tools.ietf.org/html/rfc6749#section-4.1
 
+For more information see the [Request User Authorization][rua] section of the Dwolla V2 docs.
+
+[rua]: https://docsv2.dwolla.com/#request-user-authorization
+
 ```python
 # http://www.twobotechnologies.com/blog/2014/02/importance-of-state-in-oauth2.html
 state = binascii.b2a_hex(os.urandom(15))
 auth = client.Auth(redirect_uri = 'https://yoursite.com/callback',
                    scope = 'ManageCustomers|Funding',
-                   state = state) # optional
+                   state = state, # optional
+                   verified_account = True, # optional
+                   dwolla_landing = 'register') # optional
 
 # redirect the user to dwolla.com for authorization
 redirect_to(auth.url)

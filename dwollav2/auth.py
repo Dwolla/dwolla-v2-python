@@ -34,6 +34,8 @@ def auth_for(_client):
             self.redirect_uri = kwargs.get('redirect_uri')
             self.scope = kwargs.get('scope')
             self.state = kwargs.get('state')
+            self.verified_account = kwargs.get('verified_account')
+            self.dwolla_landing = kwargs.get('dwolla_landing')
 
         @property
         def url(self):
@@ -58,9 +60,11 @@ def auth_for(_client):
                 'client_id': _client.id,
                 'redirect_uri': self.redirect_uri,
                 'scope': self.scope,
-                'state': self.state
+                'state': self.state,
+                'verified_account': self.verified_account,
+                'dwolla_landing': self.dwolla_landing
             }
-            return dict((k, v) for k, v in iter(d.items()) if v)
+            return dict((k, v) for k, v in iter(d.items()) if v is not None)
 
         @staticmethod
         def client():
