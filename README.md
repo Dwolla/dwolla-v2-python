@@ -23,15 +23,15 @@ Create a client using your application's consumer key and secret found on the ap
 [approd]: https://www.dwolla.com/applications
 
 ```python
-client = dwollav2.Client(id = os.environ['DWOLLA_ID'], secret = os.environ['DWOLLA_SECRET'])
+client = dwollav2.Client(id = os.environ['DWOLLA_APP_KEY'], secret = os.environ['DWOLLA_APP_SECRET'])
 ```
 
 ### Using the sandbox environment (optional)
 
 ```python
 client = dwollav2.Client(
-  id = os.environ['DWOLLA_ID'],
-  secret = os.environ['DWOLLA_SECRET'],
+  key = os.environ['DWOLLA_APP_KEY'],
+  secret = os.environ['DWOLLA_APP_SECRET'],
   environment = 'sandbox'
 )
 ```
@@ -45,8 +45,8 @@ callback is called with the `Token` that was just granted by the server.
 
 ```python
 client = dwollav2.Client(
-  id = os.environ['DWOLLA_ID'],
-  secret = os.environ['DWOLLA_SECRET'],
+  key = os.environ['DWOLLA_APP_KEY'],
+  secret = os.environ['DWOLLA_APP_SECRET'],
   on_grant = lambda t: save(t)
 )
 ```
@@ -257,6 +257,7 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **1.2.0** Refer to Client id as key.
 - **1.1.8** Support `verified_account` and `dwolla_landing` auth flags
 - **1.1.7** Use session over connections for [performance improvement](http://docs.python-requests.org/en/master/user/advanced/#session-objects) ([#8](https://github.com/Dwolla/dwolla-v2-python/pull/8) - Thanks @bfeeser!)
 - **1.1.5** Fix file upload bug when using with Python 2 ([#6](https://github.com/Dwolla/dwolla-v2-python/issues/6))
