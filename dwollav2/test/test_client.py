@@ -7,9 +7,15 @@ class ClientShould(unittest2.TestCase):
     id = 'client-id'
     secret = 'client-secret'
 
-    def test_sets_id(self):
+    def test_sets_id_and_key_when_id_provided(self):
         client = dwollav2.Client(id = self.id, secret = self.secret)
         self.assertEqual(self.id, client.id)
+        self.assertEqual(self.id, client.key)
+
+    def test_sets_id_and_key_when_key_provided(self):
+        client = dwollav2.Client(key = self.id, secret = self.secret)
+        self.assertEqual(self.id, client.id)
+        self.assertEqual(self.id, client.key)
 
     def test_sets_secret(self):
         client = dwollav2.Client(id = self.id, secret = self.secret)

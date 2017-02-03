@@ -17,7 +17,7 @@ class Client:
     }
 
     def __init__(self, **kwargs):
-        self.id = kwargs['id']
+        self.id = self.key = kwargs.get('id') or kwargs['key']
         self.secret = kwargs['secret']
         self.environment = kwargs.get('environment', 'production')
         if self.environment not in self.ENVIRONMENTS:
