@@ -17,9 +17,9 @@ pip install dwollav2
 ### Basic usage
 
 Create a client using your application's consumer key and secret found on the applications page
-([UAT][apuat], [Production][approd]).
+([Sandbox][apsandbox], [Production][approd]).
 
-[apuat]: https://uat.dwolla.com/applications
+[apsandbox]: https://sandbox.dwolla.com/applications
 [approd]: https://www.dwolla.com/applications
 
 ```python
@@ -83,7 +83,7 @@ to an account include `customers`, `funding-sources`, `documents`, `mass-payment
 `transfers`, and `on-demand-authorizations`.
 
 There are two ways to get an account token. One is by generating a token at
-https://uat.dwolla.com/applications (sandbox) or https://www.dwolla.com/applications (production).
+https://sandbox.dwolla.com/applications (sandbox) or https://www.dwolla.com/applications (production).
 
 You can instantiate a generated token by doing the following:
 
@@ -185,7 +185,7 @@ res.headers
 # => {'server'=>'cloudflare-nginx', 'date'=>'Mon, 28 Mar 2016 15:30:23 GMT', 'content-type'=>'application/vnd.dwolla.v1.hal+json; charset=UTF-8', 'content-length'=>'150', 'connection'=>'close', 'set-cookie'=>'__cfduid=d9dcd0f586c166d36cbd45b992bdaa11b1459179023; expires=Tue, 28-Mar-17 15:30:23 GMT; path=/; domain=.dwolla.com; HttpOnly', 'x-request-id'=>'69a4e612-5dae-4c52-a6a0-2f921e34a88a', 'cf-ray'=>'28ac1f81875941e3-MSP'}
 
 res.body['_links']['events']['href']
-# => 'https://api-uat.dwolla.com/events'
+# => 'https://api-sandbox.dwolla.com/events'
 ```
 
 ## Errors
@@ -257,6 +257,7 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **1.2.1** Update sandbox URLs from uat => sandbox.
 - **1.2.0** Refer to Client id as key.
 - **1.1.8** Support `verified_account` and `dwolla_landing` auth flags
 - **1.1.7** Use session over connections for [performance improvement](http://docs.python-requests.org/en/master/user/advanced/#session-objects) ([#8](https://github.com/Dwolla/dwolla-v2-python/pull/8) - Thanks @bfeeser!)
