@@ -1,5 +1,6 @@
 import requests
 from io import IOBase
+import re
 
 from dwollav2.response import Response
 from dwollav2.version import version
@@ -77,6 +78,7 @@ def token_for(_client):
             elif path.startswith('/'):
                 return _client.api_url + path
             else:
+                path = re.sub(r'^https?://[^/]*/', '', path)
                 return "%s/%s" % (_client.api_url, path)
 
     return Token
