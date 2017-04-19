@@ -70,6 +70,18 @@ class TokenShould(unittest2.TestCase):
         self.assertEqual({'foo': 'bar'}, res.body)
 
     @responses.activate
+    def test_get_success_different_domain(self):
+        responses.add(responses.GET,
+                      self.client.api_url + '/foo',
+                      body='{"foo": "bar"}',
+                      status=200,
+                      content_type='application/vnd.dwolla.v1.hal+json')
+        token = self.client.Token(access_token=self.access_token)
+        res = token.get('https://foo.com/foo')
+        self.assertEqual(200, res.status)
+        self.assertEqual({'foo': 'bar'}, res.body)
+
+    @responses.activate
     def test_get_error(self):
         responses.add(responses.GET,
                       self.client.api_url + '/foo',
