@@ -257,6 +257,7 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **1.2.3** Check if IOBase when checking to see if something is a file.
 - **1.2.2** Strip domain from URLs provided to token.* methods.
 - **1.2.1** Update sandbox URLs from uat => sandbox.
 - **1.2.0** Refer to Client id as key.
