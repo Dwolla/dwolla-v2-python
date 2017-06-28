@@ -21,7 +21,7 @@ def _items_or_iteritems(o):
 
 def _is_a_file(o):
     try:
-        return isinstance(o, file)
+        return isinstance(o, file) or isinstance(o, IOBase)
     except NameError as e:
         return isinstance(o, IOBase)
 
