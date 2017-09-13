@@ -5,14 +5,6 @@ import re
 from dwollav2.response import Response
 from dwollav2.version import version
 
-
-session = requests.session()
-session.headers.update({
-    'accept': 'application/vnd.dwolla.v1.hal+json',
-    'user-agent': 'dwolla-v2-python %s' % version
-})
-
-
 def _items_or_iteritems(o):
     try:
         return o.iteritems()
@@ -49,7 +41,11 @@ def token_for(_client):
             self.scope         = opts.get('scope')
             self.app_id        = opts.get('app_id')
             self.account_id    = opts.get('account_id')
-            session.headers.update({
+
+            self.session = requests.session()
+            self.session.headers.update({
+                'accept': 'application/vnd.dwolla.v1.hal+json',
+                'user-agent': 'dwolla-v2-python %s' % version,
                 'authorization': 'Bearer %s' % self.access_token
             })
 
@@ -58,16 +54,16 @@ def token_for(_client):
             if _contains_file(body):
                 files = [(k, v) for k, v in _items_or_iteritems(body) if _contains_file(v)]
                 data = [(k, v) for k, v in _items_or_iteritems(body) if not _contains_file(v)]
-                return Response(session.post(self._full_url(url), headers=headers, files=files, data=data))
+                return Response(self.session.post(self._full_url(url), headers=headers, files=files, data=data))
             else:
-                return Response(session.post(self._full_url(url), headers=headers, json=body))
+                return Response(self.session.post(self._full_url(url), headers=headers, json=body))
 
         def get(self, url, params = None, headers = {}, **kwargs):
             params = kwargs if params is None else params
-            return Response(session.get(self._full_url(url), headers=headers, params=params))
+            return Response(self.session.get(self._full_url(url), headers=headers, params=params))
 
         def delete(self, url, params = None, headers = {}):
-            return Response(session.delete(self._full_url(url), headers=headers, params=params))
+            return Response(self.session.delete(self._full_url(url), headers=headers, params=params))
 
         def _full_url(self, path):
             if isinstance(path, dict):
