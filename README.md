@@ -2,11 +2,13 @@
 
 ![Build Status](https://travis-ci.org/Dwolla/dwolla-v2-python.svg)
 
-Dwolla V2 Python client. For the V1 Python client see [Dwolla/dwolla-python](https://github.com/Dwolla/dwolla-python).
+Dwolla V2 Python client.
 
 [API Documentation](https://docsv2.dwolla.com)
 
 ## Installation
+
+`dwollav2` is available on [PyPi](https://pypi.python.org/pypi/dwollav2), and therefore can be installed automagically via [pip](https://pip.pypa.io/en/stable/installing/).
 
 ```
 pip install dwollav2
@@ -19,8 +21,8 @@ pip install dwollav2
 Create a client using your application's consumer key and secret found on the applications page
 ([Sandbox][apsandbox], [Production][approd]).
 
-[apsandbox]: https://sandbox.dwolla.com/applications
-[approd]: https://www.dwolla.com/applications
+[apsandbox]: https://dashboard-sandbox.dwolla.com/applications
+[approd]: https://dashboard.dwolla.com/applications
 
 ```python
 client = dwollav2.Client(id = os.environ['DWOLLA_APP_KEY'], secret = os.environ['DWOLLA_APP_SECRET'])
@@ -55,19 +57,13 @@ It is highly recommended that you encrypt any token data you store.
 
 ## `Token`
 
-Tokens can be used to make requests to the Dwolla V2 API. There are two types of tokens:
+Tokens can be used to make requests to the Dwolla V2 API.
 
 ### Application tokens
 
-Application tokens are used to access the API on behalf of a consumer application. API resources that
-belong to an application include: `webhook-subscriptions`, `events`, and `webhooks`. Application
-tokens can be created using the [`client_credentials`][client_credentials] OAuth grant type:
+Application access tokens are used to authenticate against the API on behalf of a consumer application. Application tokens can be used to access resources in the API that either belong to the application itself (`webhooks`, `events`, `webhook-subscriptions`) or the partner Account that owns the consumer application (`accounts`, `customers`, `funding-sources`, etc.). Application tokens are obtained by using the [`client_credentials`][client_credentials] OAuth grant type:
 
 [client_credentials]: https://tools.ietf.org/html/rfc6749#section-4.4
-
-**Note:** If an application has the `ManageCustomers` scope enabled, it can also be used to access
-the API for White Label Customer related endpoints. Keep in mind, the application must belong to
-same Dwolla account that will be used when creating and managing White Label Customers in the API.
 
 ```python
 application_token = client.Auth.client()
@@ -76,67 +72,13 @@ application_token = client.Auth.client()
 *Application tokens do not include a `refresh_token`. When an application token expires, generate
 a new one using `client.Auth.client()`.*
 
-### Account tokens
-
-Account tokens are used to access the API on behalf of a Dwolla account. API resources that belong
-to an account include `customers`, `funding-sources`, `documents`, `mass-payments`, `mass-payment-items`,
-`transfers`, and `on-demand-authorizations`.
-
-There are two ways to get an account token. One is by generating a token at
-https://sandbox.dwolla.com/applications (sandbox) or https://www.dwolla.com/applications (production).
-
-You can instantiate a generated token by doing the following:
-
-```python
-account_token = client.Token(access_token = '...', refresh_token = '...')
-```
-
-The other way to get an account token is using the [`authorization_code`][authorization_code]
-OAuth grant type. This flow works by redirecting a user to dwolla.com in order to get authorization
-and sending them back to your website with an authorization code which can be exchanged for a token.
-For example:
-
-[authorization_code]: https://tools.ietf.org/html/rfc6749#section-4.1
-
-For more information see the [Request User Authorization][rua] section of the Dwolla V2 docs.
-
-[rua]: https://docsv2.dwolla.com/#request-user-authorization
-
-```python
-# http://www.twobotechnologies.com/blog/2014/02/importance-of-state-in-oauth2.html
-state = binascii.b2a_hex(os.urandom(15))
-auth = client.Auth(redirect_uri = 'https://yoursite.com/callback',
-                   scope = 'ManageCustomers|Funding',
-                   state = state, # optional
-                   verified_account = True, # optional
-                   dwolla_landing = 'register') # optional
-
-# redirect the user to dwolla.com for authorization
-redirect_to(auth.url)
-
-# exchange the code for a token using the variables provided to the redirect_uri in the query string
-token = auth.callback(req.GET)
-```
-
-### Refreshing tokens
-
-Tokens with a `refresh_token` can be refreshed using `client.Auth.refresh`, which takes a
-`Token` as its first argument and returns a new token.
-
-```python
-new_token = client.Auth.refresh(expired_token)
-```
-
 ### Initializing pre-existing tokens:
 
 `Token`s can be initialized with the following attributes:
 
 ```python
 client.Token(access_token = '...',
-             refresh_token = '...',
-             expires_in = 123,
-             scope = '...',
-             account_id = '...')
+             expires_in = 123)
 ```
 
 ## Requests
