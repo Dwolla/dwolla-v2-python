@@ -138,7 +138,7 @@ If the server returns an error, a `dwollav2.Error` (or one of its subclasses) wi
 ```python
 try:
   token.get('/not-found')
-except dwollav2.NotFoundError:
+except dwollav2.NotFoundError as e:
   e.status
   # => 404
 
