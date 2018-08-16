@@ -1,4 +1,5 @@
-requests>=2.9.1
-responses>=0.5.1
+requests>=2.19.1
+responses>=0.9.0
 unittest2>=1.1.0
-future>=0.15.2
+future>=0.16.0
+mock>=2.0.0
