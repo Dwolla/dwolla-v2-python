@@ -1,3 +1,5 @@
+from tempfile import SpooledTemporaryFile
+
 import requests
 from io import IOBase
 import re
@@ -5,17 +7,27 @@ import re
 from dwollav2.response import Response
 from dwollav2.version import version
 
+
 def _items_or_iteritems(o):
     try:
         return o.iteritems()
     except:
         return o.items()
 
+
 def _is_a_file(o):
-    try:
-        return isinstance(o, file) or isinstance(o, IOBase)
-    except NameError as e:
-        return isinstance(o, IOBase)
+    """
+    Determine if an uploaded object is a file.
+    Supports werkzeug.datastructures.FileStorage (for stream chaining), as well as IOBase'd objects.
+
+    Example stream handling from Flask/Werkzeug, where file is a FileStorage object
+    as received from a flask end point (browser upload, etc)
+
+    with file.stream as stream:
+        client.upload(url, stream, document_type='other')
+    """
+    return isinstance(o, SpooledTemporaryFile) or isinstance(o, IOBase)
+
 
 def _contains_file(o):
     if isinstance(o, dict):
@@ -30,6 +42,7 @@ def _contains_file(o):
         return False
     else:
         return _is_a_file(o)
+
 
 def token_for(_client):
     class Token:
