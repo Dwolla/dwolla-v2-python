@@ -25,7 +25,7 @@ Create a client using your application's consumer key and secret found on the ap
 [approd]: https://dashboard.dwolla.com/applications
 
 ```python
-client = dwollav2.Client(id = os.environ['DWOLLA_APP_KEY'], secret = os.environ['DWOLLA_APP_SECRET'])
+client = dwollav2.Client(key = os.environ['DWOLLA_APP_KEY'], secret = os.environ['DWOLLA_APP_SECRET'])
 ```
 
 ### Using the sandbox environment (optional)
