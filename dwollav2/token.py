@@ -54,13 +54,13 @@ def token_for(_client):
             if _contains_file(body):
                 files = [(k, v) for k, v in _items_or_iteritems(body) if _contains_file(v)]
                 data = [(k, v) for k, v in _items_or_iteritems(body) if not _contains_file(v)]
-                return Response(self.session.post(self._full_url(url), headers=headers, files=files, data=data))
+                return Response(self.session.post(self._full_url(url), headers=headers, files=files, data=data, **kwargs))
             else:
-                return Response(self.session.post(self._full_url(url), headers=headers, json=body))
+                return Response(self.session.post(self._full_url(url), headers=headers, json=body, **kwargs))
 
         def get(self, url, params = None, headers = {}, **kwargs):
             params = kwargs if params is None else params
-            return Response(self.session.get(self._full_url(url), headers=headers, params=params))
+            return Response(self.session.get(self._full_url(url), headers=headers, params=params, **kwargs))
 
         def delete(self, url, params = None, headers = {}):
             return Response(self.session.delete(self._full_url(url), headers=headers, params=params))
