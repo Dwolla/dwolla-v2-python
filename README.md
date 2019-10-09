@@ -69,8 +69,8 @@ Application access tokens are used to authenticate against the API on behalf of 
 application_token = client.Auth.client()
 ```
 
-*Application tokens do not include a `refresh_token`. When an application token expires, generate
-a new one using `client.Auth.client()`.*
+_Application tokens do not include a `refresh_token`. When an application token expires, generate
+a new one using `client.Auth.client()`._
 
 ### Initializing pre-existing tokens:
 
@@ -153,7 +153,7 @@ except dwollav2.Error:
 
 ### `dwollav2.Error` subclasses:
 
-*See https://docsv2.dwolla.com/#errors for more info.*
+_See https://docsv2.dwolla.com/#errors for more info._
 
 - `dwollav2.AccessDeniedError`
 - `dwollav2.InvalidCredentialsError`
@@ -199,10 +199,11 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **1.4.0** Allow kwargs to be passed to `get`, `post`, and `delete` methods.
 - **1.3.0** Change token URLs, update dependencies.
 - **1.2.4** Create a new session for each Token.
 - **1.2.3** Check if IOBase when checking to see if something is a file.
-- **1.2.2** Strip domain from URLs provided to token.* methods.
+- **1.2.2** Strip domain from URLs provided to token.\* methods.
 - **1.2.1** Update sandbox URLs from uat => sandbox.
 - **1.2.0** Refer to Client id as key.
 - **1.1.8** Support `verified_account` and `dwolla_landing` auth flags

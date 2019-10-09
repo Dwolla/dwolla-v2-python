@@ -62,8 +62,8 @@ def token_for(_client):
             params = kwargs if params is None else params
             return Response(self.session.get(self._full_url(url), headers=headers, params=params, **kwargs))
 
-        def delete(self, url, params = None, headers = {}):
-            return Response(self.session.delete(self._full_url(url), headers=headers, params=params))
+        def delete(self, url, params = None, headers = {}, **kwargs):
+            return Response(self.session.delete(self._full_url(url), headers=headers, params=params, **kwargs))
 
         def _full_url(self, path):
             if isinstance(path, dict):
