@@ -9,7 +9,7 @@ except ImportError:
 
 setup(
     name='dwollav2',
-    version='1.3.0',
+    version='1.4.0',
     packages=['dwollav2'],
     install_requires=[
         'requests>=2.9.1',
@@ -32,9 +32,10 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.2",
-        "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ]

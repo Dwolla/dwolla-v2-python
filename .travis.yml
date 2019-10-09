@@ -5,7 +5,8 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-  - "nightly" # currently points to 3.6-dev
+  - "3.7"
+  - "nightly"
   - "pypy"
   - "pypy3"
 
