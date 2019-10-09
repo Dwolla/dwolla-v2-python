@@ -20,7 +20,8 @@ setup(
     license='MIT',
     author='Stephen Ausman',
     author_email='stephen@dwolla.com',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
     description='Official Dwolla V2 API client',
     classifiers=[
         "Development Status :: 4 - Beta",
