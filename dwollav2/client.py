@@ -5,13 +5,13 @@ from dwollav2.token import token_for
 class Client:
     ENVIRONMENTS = {
         'production': {
-            'auth_url':  'https://www.dwolla.com/oauth/v2/authenticate',
-            'token_url': 'https://accounts.dwolla.com/token',
+            'auth_url':  'https://accounts.dwolla.com/auth',
+            'token_url': 'https://api.dwolla.com/token',
             'api_url':   'https://api.dwolla.com'
         },
         'sandbox': {
-            'auth_url':  'https://sandbox.dwolla.com/oauth/v2/authenticate',
-            'token_url': 'https://accounts-sandbox.dwolla.com/token',
+            'auth_url':  'https://accounts-sandbox.dwolla.com/auth',
+            'token_url': 'https://api-sandbox.dwolla.com/token',
             'api_url':   'https://api-sandbox.dwolla.com'
         }
     }
@@ -25,6 +25,15 @@ class Client:
         self.on_grant = kwargs.get('on_grant')
         self.Auth = auth_for(self)
         self.Token = token_for(self)
+
+    def auth(self, opts=None, **kwargs):
+        return self.Auth(opts, **kwargs)
+
+    def refresh_token(self, opts=None, **kwargs):
+        return self.Auth.refresh(self.Token(opts, **kwargs))
+
+    def token(self, opts=None, **kwargs):
+        return self.Token(opts, **kwargs)
 
     @property
     def auth_url(self):

@@ -32,18 +32,20 @@ def _request_token(client, payload):
 
 def auth_for(_client):
     class Auth:
-        def __init__(self, **kwargs):
-            self.redirect_uri = kwargs.get('redirect_uri')
-            self.scope = kwargs.get('scope')
-            self.state = kwargs.get('state')
-            self.verified_account = kwargs.get('verified_account')
-            self.dwolla_landing = kwargs.get('dwolla_landing')
+        def __init__(self, opts=None, **kwargs):
+            opts = kwargs if opts is None else opts
+            self.redirect_uri = opts.get('redirect_uri')
+            self.scope = opts.get('scope')
+            self.state = opts.get('state')
+            self.verified_account = opts.get('verified_account')
+            self.dwolla_landing = opts.get('dwolla_landing')
 
         @property
         def url(self):
             return '%s?%s' % (_client.auth_url, urlencode(self._query()))
 
-        def callback(self, params):
+        def callback(self, params=None, **kwargs):
+            params = kwargs if params is None else params
             if params.get('state') != self.state:
                 raise ValueError('invalid state')
             if 'error' in params:
