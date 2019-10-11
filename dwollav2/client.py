@@ -4,16 +4,16 @@ from dwollav2.token import token_for
 
 class Client:
     ENVIRONMENTS = {
-      'production': {
-        'auth_url':  'https://www.dwolla.com/oauth/v2/authenticate',
-        'token_url': 'https://accounts.dwolla.com/token',
-        'api_url':   'https://api.dwolla.com'
-      },
-      'sandbox': {
-        'auth_url':  'https://sandbox.dwolla.com/oauth/v2/authenticate',
-        'token_url': 'https://accounts-sandbox.dwolla.com/token',
-        'api_url':   'https://api-sandbox.dwolla.com'
-      }
+        'production': {
+            'auth_url':  'https://www.dwolla.com/oauth/v2/authenticate',
+            'token_url': 'https://accounts.dwolla.com/token',
+            'api_url':   'https://api.dwolla.com'
+        },
+        'sandbox': {
+            'auth_url':  'https://sandbox.dwolla.com/oauth/v2/authenticate',
+            'token_url': 'https://accounts-sandbox.dwolla.com/token',
+            'api_url':   'https://api-sandbox.dwolla.com'
+        }
     }
 
     def __init__(self, **kwargs):
@@ -38,5 +38,5 @@ class Client:
     def api_url(self):
         return self.ENVIRONMENTS[self.environment]['api_url']
 
-    def Token(self, opts = None, **kwargs):
+    def Token(self, opts=None, **kwargs):
         return Token(self, opts, **kwargs)

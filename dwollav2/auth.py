@@ -19,6 +19,7 @@ def _is_error(res):
     except:
         return True
 
+
 def _request_token(client, payload):
     res = session.post(client.token_url, data=payload)
     if _is_error(res):
@@ -27,6 +28,7 @@ def _request_token(client, payload):
     if client.on_grant is not None:
         client.on_grant(token)
     return token
+
 
 def auth_for(_client):
     class Auth:
