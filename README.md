@@ -55,6 +55,10 @@ client = dwollav2.Client(
 
 It is highly recommended that you encrypt any token data you store.
 
+### Integrations Authorization
+
+Check out our [Integrations Authorization Guide](https://developers.dwolla.com/integrations/authorization).
+
 ## `Token`
 
 Tokens can be used to make requests to the Dwolla V2 API.
@@ -199,6 +203,7 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **1.5.0** Add integrations auth functionality
 - **1.4.0** Allow kwargs to be passed to `get`, `post`, and `delete` methods.
 - **1.3.0** Change token URLs, update dependencies.
 - **1.2.4** Create a new session for each Token.
