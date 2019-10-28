@@ -57,7 +57,7 @@ class ClientShould(unittest2.TestCase):
         client = dwollav2.Client(id=self.id, secret=self.secret)
         redirect_uri = "redirect-uri"
         self.assertEqual(client.auth(
-            redirect_uri=redirect_uri).url, 'https://accounts.dwolla.com/auth?response_type=code&client_id=client-id&redirect_uri=%s' % redirect_uri)
+            redirect_uri=redirect_uri).url, 'https://accounts.dwolla.com/auth?client_id=client-id&redirect_uri=%s&response_type=code' % redirect_uri)
 
     @responses.activate
     def test_refresh_token_success(self):

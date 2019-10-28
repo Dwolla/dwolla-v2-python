@@ -68,7 +68,7 @@ def auth_for(_client):
                 'verified_account': self.verified_account,
                 'dwolla_landing': self.dwolla_landing
             }
-            return dict((k, v) for k, v in iter(d.items()) if v is not None)
+            return dict((k, v) for k, v in iter(sorted(d.items())) if v is not None)
 
         @staticmethod
         def client():
