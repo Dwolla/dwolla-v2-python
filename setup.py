@@ -9,7 +9,7 @@ except ImportError:
 
 setup(
     name='dwollav2',
-    version='1.4.0',
+    version='1.5.0',
     packages=['dwollav2'],
     install_requires=[
         'requests>=2.9.1',

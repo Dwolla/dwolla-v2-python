@@ -1,5 +1,6 @@
 import requests
 
+
 class Error(Exception):
     def __init__(self, res):
         if isinstance(res, requests.Response):
@@ -56,77 +57,102 @@ class Error(Exception):
         except:
             return res.text
 
+
 class AccessDeniedError(Error):
     pass
+
 
 class InvalidCredentialsError(Error):
     pass
 
+
 class NotFoundError(Error):
     pass
+
 
 class BadRequestError(Error):
     pass
 
+
 class InvalidGrantError(Error):
     pass
+
 
 class RequestTimeoutError(Error):
     pass
 
+
 class ExpiredAccessTokenError(Error):
     pass
+
 
 class InvalidRequestError(Error):
     pass
 
+
 class ServerError(Error):
     pass
+
 
 class ForbiddenError(Error):
     pass
 
+
 class InvalidResourceStateError(Error):
     pass
+
 
 class TemporarilyUnavailableError(Error):
     pass
 
+
 class InvalidAccessTokenError(Error):
     pass
+
 
 class InvalidScopeError(Error):
     pass
 
+
 class UnauthorizedClientError(Error):
     pass
+
 
 class InvalidAccountStatusError(Error):
     pass
 
+
 class UnsupportedGrantTypeError(Error):
     pass
+
 
 class InvalidApplicationStatusError(Error):
     pass
 
+
 class InvalidVersionError(Error):
     pass
+
 
 class UnsupportedResponseTypeError(Error):
     pass
 
+
 class InvalidClientError(Error):
     pass
+
 
 class MethodNotAllowedError(Error):
     pass
 
+
 class ValidationError(Error):
     pass
 
+
 class TooManyRequestsError(Error):
     pass
+
 
 class ConflictError(Error):
     pass

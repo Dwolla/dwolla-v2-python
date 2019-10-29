@@ -16,52 +16,53 @@ class AuthShould(unittest2.TestCase):
     state = 'state'
 
     def test_instance_sets_redirect_uri(self):
-        auth = self.client.Auth(redirect_uri = self.redirect_uri)
+        auth = self.client.Auth(redirect_uri=self.redirect_uri)
         self.assertEqual(self.redirect_uri, auth.redirect_uri)
 
     def test_instance_sets_scope(self):
-        auth = self.client.Auth(scope = self.scope)
+        auth = self.client.Auth(scope=self.scope)
         self.assertEqual(self.scope, auth.scope)
 
     def test_instance_sets_state(self):
-        auth = self.client.Auth(state = self.state)
+        auth = self.client.Auth(state=self.state)
         self.assertEqual(self.state, auth.state)
 
     def test_instance_url(self):
-        auth = self.client.Auth(redirect_uri = self.redirect_uri,
-                                scope = self.scope,
-                                state = self.state)
+        auth = self.client.Auth(redirect_uri=self.redirect_uri,
+                                scope=self.scope,
+                                state=self.state)
         expected_url = '%s' % self.client.auth_url
         self.assertEqual(expected_url, auth.url)
 
     def test_instance_url(self):
-        auth = self.client.Auth(redirect_uri = self.redirect_uri,
-                                scope = self.scope,
-                                state = self.state)
-        expected_url = self.client.auth_url + '?' + self._expected_query(self.client, auth)
+        auth = self.client.Auth(redirect_uri=self.redirect_uri,
+                                scope=self.scope,
+                                state=self.state)
+        expected_url = self.client.auth_url + '?' + \
+            self._expected_query(self.client, auth)
         self.assertEqual(expected_url, auth.url)
 
     def test_instance_callback_raises_error_if_state_mismatch(self):
-        auth = self.client.Auth(redirect_uri = self.redirect_uri,
-                                scope = self.scope,
-                                state = self.state)
+        auth = self.client.Auth(redirect_uri=self.redirect_uri,
+                                scope=self.scope,
+                                state=self.state)
         params = {'state': self.state + 'bad'}
         with self.assertRaises(ValueError):
             auth.callback(params)
 
     def test_instance_callback_raises_error_if_passed_error(self):
-        auth = self.client.Auth(redirect_uri = self.redirect_uri,
-                                scope = self.scope,
-                                state = self.state)
+        auth = self.client.Auth(redirect_uri=self.redirect_uri,
+                                scope=self.scope,
+                                state=self.state)
         params = {'error': 'bad', 'state': self.state}
         with self.assertRaises(dwollav2.Error):
             auth.callback(params)
 
     @responses.activate
     def test_instance_callback_success(self):
-        auth = self.client.Auth(redirect_uri = self.redirect_uri,
-                                scope = self.scope,
-                                state = self.state)
+        auth = self.client.Auth(redirect_uri=self.redirect_uri,
+                                scope=self.scope,
+                                state=self.state)
         responses.add(responses.POST,
                       self.client.token_url,
                       body='{"access_token": "abc"}',
@@ -74,9 +75,9 @@ class AuthShould(unittest2.TestCase):
 
     @responses.activate
     def test_instance_callback_error(self):
-        auth = self.client.Auth(redirect_uri = self.redirect_uri,
-                                scope = self.scope,
-                                state = self.state)
+        auth = self.client.Auth(redirect_uri=self.redirect_uri,
+                                scope=self.scope,
+                                state=self.state)
         responses.add(responses.POST,
                       self.client.token_url,
                       body='{"error": "bad"}',
@@ -89,9 +90,9 @@ class AuthShould(unittest2.TestCase):
     @responses.activate
     def test_instance_callback_success_with_none_on_grant(self):
         client = dwollav2.Client(id='id', secret='secret')
-        auth = client.Auth(redirect_uri = self.redirect_uri,
-                           scope = self.scope,
-                           state = self.state)
+        auth = client.Auth(redirect_uri=self.redirect_uri,
+                           scope=self.scope,
+                           state=self.state)
         responses.add(responses.POST,
                       client.token_url,
                       body='{"access_token": "abc"}',
@@ -129,7 +130,7 @@ class AuthShould(unittest2.TestCase):
                       body='{"access_token": "abc"}',
                       status=200,
                       content_type='application/json')
-        old_token = self.client.Token(refresh_token = 'refresh token')
+        old_token = self.client.Token(refresh_token='refresh token')
         token = self.client.Auth.refresh(old_token)
         self.assertEqual('abc', token.access_token)
         self.client.on_grant.assert_called_with(token)
@@ -141,7 +142,7 @@ class AuthShould(unittest2.TestCase):
                       body='{"error": "bad"}',
                       status=200,
                       content_type='application/json')
-        old_token = self.client.Token(refresh_token = 'refresh token')
+        old_token = self.client.Token(refresh_token='refresh token')
         with self.assertRaises(dwollav2.Error):
             self.client.Auth.refresh(old_token)
 
@@ -155,4 +156,4 @@ class AuthShould(unittest2.TestCase):
             'verified_account': auth.verified_account,
             'dwolla_landing': auth.dwolla_landing
         }
-        return urlencode(dict((k, v) for k, v in iter(d.items()) if v))
+        return urlencode(dict((k, v) for k, v in iter(sorted(d.items())) if v))
