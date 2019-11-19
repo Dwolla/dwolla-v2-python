@@ -25,20 +25,13 @@ Create a client using your application's consumer key and secret found on the ap
 [approd]: https://dashboard.dwolla.com/applications
 
 ```python
-client = dwollav2.Client(key = os.environ['DWOLLA_APP_KEY'], secret = os.environ['DWOLLA_APP_SECRET'])
-```
-
-### Using the sandbox environment (optional)
-
-```python
 client = dwollav2.Client(
   key = os.environ['DWOLLA_APP_KEY'],
   secret = os.environ['DWOLLA_APP_SECRET'],
-  environment = 'sandbox'
+  environment = 'sandbox', # defaults to 'production'
+  requests = {'timeout': 0.001}
 )
 ```
-
-`environment` defaults to `'production'`.
 
 ### Configure an `on_grant` callback (optional)
 
@@ -203,8 +196,9 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **1.6.0** Allow configuration of `requests` options on `dwollav2.Client`.
 - **1.5.0** Add integrations auth functionality
-- **1.4.0** Allow kwargs to be passed to `get`, `post`, and `delete` methods.
+- **1.4.0** ~~Pass kwargs from `get`, `post`, and `delete` methods to underlying requests methods.~~ (Removed in v1.6)
 - **1.3.0** Change token URLs, update dependencies.
 - **1.2.4** Create a new session for each Token.
 - **1.2.3** Check if IOBase when checking to see if something is a file.

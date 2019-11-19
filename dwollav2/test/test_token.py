@@ -40,8 +40,10 @@ class TokenShould(unittest2.TestCase):
         token2 = self.client.Token(access_token=new_access_token)
 
         self.assertNotEqual(token1.session, token2.session)
-        self.assertEqual(token1.session.headers['authorization'], 'Bearer %s' % self.access_token)
-        self.assertEqual(token2.session.headers['authorization'], 'Bearer %s' % new_access_token)
+        self.assertEqual(
+            token1.session.headers['authorization'], 'Bearer %s' % self.access_token)
+        self.assertEqual(
+            token2.session.headers['authorization'], 'Bearer %s' % new_access_token)
 
     @responses.activate
     def test_get_success(self):

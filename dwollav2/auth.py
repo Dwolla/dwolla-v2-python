@@ -21,7 +21,7 @@ def _is_error(res):
 
 
 def _request_token(client, payload):
-    res = session.post(client.token_url, data=payload)
+    res = session.post(client.token_url, data=payload, **client.requests)
     if _is_error(res):
         raise Error.map(res)
     token = client.Token(res.json())
