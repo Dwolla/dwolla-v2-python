@@ -23,6 +23,7 @@ class Client:
         if self.environment not in self.ENVIRONMENTS:
             raise ValueError('invalid environment')
         self.on_grant = kwargs.get('on_grant')
+        self.requests = kwargs.get('requests', {})
         self.Auth = auth_for(self)
         self.Token = token_for(self)
 

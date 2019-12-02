@@ -55,21 +55,30 @@ def token_for(_client):
 
         def post(self, url, body=None, headers={}, **kwargs):
             body = kwargs if body is None else body
+            requests = _client.requests.copy()
+            headers = self._merge_dicts(
+                requests.pop('headers', {}), headers)
             if _contains_file(body):
                 files = [(k, v) for k, v in _items_or_iteritems(
                     body) if _contains_file(v)]
                 data = [(k, v) for k, v in _items_or_iteritems(
                     body) if not _contains_file(v)]
-                return Response(self.session.post(self._full_url(url), headers=headers, files=files, data=data, **kwargs))
+                return Response(self.session.post(self._full_url(url), headers=headers, files=files, data=data, **requests))
             else:
-                return Response(self.session.post(self._full_url(url), headers=headers, json=body, **kwargs))
+                return Response(self.session.post(self._full_url(url), headers=headers, json=body, **requests))
 
         def get(self, url, params=None, headers={}, **kwargs):
             params = kwargs if params is None else params
-            return Response(self.session.get(self._full_url(url), headers=headers, params=params, **kwargs))
+            requests = _client.requests.copy()
+            headers = self._merge_dicts(
+                requests.pop('headers', {}), headers)
+            return Response(self.session.get(self._full_url(url), headers=headers, params=params, **requests))
 
-        def delete(self, url, params=None, headers={}, **kwargs):
-            return Response(self.session.delete(self._full_url(url), headers=headers, params=params, **kwargs))
+        def delete(self, url, params=None, headers={}):
+            requests = _client.requests.copy()
+            headers = self._merge_dicts(
+                requests.pop('headers', {}), headers)
+            return Response(self.session.delete(self._full_url(url), headers=headers, params=params, **requests))
 
         def _full_url(self, path):
             if isinstance(path, dict):
@@ -82,5 +91,10 @@ def token_for(_client):
             else:
                 path = re.sub(r'^https?://[^/]*/', '', path)
                 return "%s/%s" % (_client.api_url, path)
+
+        def _merge_dicts(self, x, y):
+            z = x.copy()   # start with x's keys and values
+            z.update(y)    # modifies z with y's keys and values & returns None
+            return z
 
     return Token
