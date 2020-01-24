@@ -196,6 +196,16 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **2.0.0**
+  - JSON request bodies now contain sorted keys to ensure the same request body for a given set of
+    arguments, no matter the order they are passed to `dwolla.post`. This ensures the
+    [`Idempotency-Key`][] header will work as intended without additional effort by developers.
+  - **NOTE**: Because this change alters the formatting of JSON request bodies, we are releasing it
+    as a major new version. The request body of a request made with `1.6.0` will not match the
+    request body of the same request made in `2.0.0`. This will nullify the effect of the
+    [`Idempotency-Key`][] header when upgrading, so please take this into account.
+    If you have any questions please [reach out to us](https://discuss.dwolla.com/)!
+    There are no other changes since `1.6.0`.
 - **1.6.0** Allow configuration of `requests` options on `dwollav2.Client`.
 - **1.5.0** Add integrations auth functionality
 - **1.4.0** ~~Pass kwargs from `get`, `post`, and `delete` methods to underlying requests methods.~~ (Removed in v1.6)
@@ -211,3 +221,5 @@ The package is available as open source under the terms of the [MIT License](htt
 - **1.1.2** Add `TooManyRequestsError` and `ConflictError`
 - **1.1.1** Add MANIFEST.in
 - **1.1.0** Support per-request headers
+
+[`idempotency-key`]: https://docs.dwolla.com/#idempotency-key
