@@ -1,6 +1,7 @@
 import requests
 from io import IOBase
 import re
+import json
 
 from dwollav2.response import Response
 from dwollav2.version import version
@@ -65,7 +66,12 @@ def token_for(_client):
                     body) if not _contains_file(v)]
                 return Response(self.session.post(self._full_url(url), headers=headers, files=files, data=data, **requests))
             else:
-                return Response(self.session.post(self._full_url(url), headers=headers, json=body, **requests))
+                return Response(self.session.post(
+                    self._full_url(url),
+                    headers=self._merge_dicts(
+                        {'content-type': 'application/json'}, headers),
+                    data=json.dumps(body, sort_keys=True, indent=2),
+                    **requests))
 
         def get(self, url, params=None, headers={}, **kwargs):
             params = kwargs if params is None else params
