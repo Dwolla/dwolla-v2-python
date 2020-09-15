@@ -3,14 +3,7 @@ try:
 except ImportError:
     from urllib import urlencode
 
-import requests
-
 from dwollav2.error import Error
-from dwollav2.version import version
-
-
-session = requests.session()
-session.headers.update({'user-agent': 'dwolla-v2-python %s' % version})
 
 
 def _is_error(res):
@@ -21,7 +14,8 @@ def _is_error(res):
 
 
 def _request_token(client, payload):
-    res = session.post(client.token_url, data=payload, **client.requests)
+    res = client._session.post(
+        client.token_url, data=payload, **client.requests)
     if _is_error(res):
         raise Error.map(res)
     token = client.Token(res.json())

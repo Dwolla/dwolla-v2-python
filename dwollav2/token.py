@@ -47,8 +47,8 @@ def token_for(_client):
             self.app_id = opts.get('app_id')
             self.account_id = opts.get('account_id')
 
-            self.session = requests.session()
-            self.session.headers.update({
+            self._session = requests.session()
+            self._session.headers.update({
                 'accept': 'application/vnd.dwolla.v1.hal+json',
                 'user-agent': 'dwolla-v2-python %s' % version,
                 'authorization': 'Bearer %s' % self.access_token
@@ -64,9 +64,9 @@ def token_for(_client):
                     body) if _contains_file(v)]
                 data = [(k, v) for k, v in _items_or_iteritems(
                     body) if not _contains_file(v)]
-                return Response(self.session.post(self._full_url(url), headers=headers, files=files, data=data, **requests))
+                return Response(self._session.post(self._full_url(url), headers=headers, files=files, data=data, **requests))
             else:
-                return Response(self.session.post(
+                return Response(self._session.post(
                     self._full_url(url),
                     headers=self._merge_dicts(
                         {'content-type': 'application/json'}, headers),
@@ -78,13 +78,13 @@ def token_for(_client):
             requests = _client.requests.copy()
             headers = self._merge_dicts(
                 requests.pop('headers', {}), headers)
-            return Response(self.session.get(self._full_url(url), headers=headers, params=params, **requests))
+            return Response(self._session.get(self._full_url(url), headers=headers, params=params, **requests))
 
         def delete(self, url, params=None, headers={}):
             requests = _client.requests.copy()
             headers = self._merge_dicts(
                 requests.pop('headers', {}), headers)
-            return Response(self.session.delete(self._full_url(url), headers=headers, params=params, **requests))
+            return Response(self._session.delete(self._full_url(url), headers=headers, params=params, **requests))
 
         def _full_url(self, path):
             if isinstance(path, dict):
