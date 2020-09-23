@@ -196,6 +196,8 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **2.1.0**
+  - Do not share `requests.session()` across instances of `dwollav2.Client`
 - **2.0.0**
   - JSON request bodies now contain sorted keys to ensure the same request body for a given set of
     arguments, no matter the order they are passed to `dwolla.post`. This ensures the

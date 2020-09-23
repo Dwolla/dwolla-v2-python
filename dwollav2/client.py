@@ -1,5 +1,8 @@
 from dwollav2.auth import auth_for
 from dwollav2.token import token_for
+from dwollav2.version import version
+
+import requests
 
 
 class Client:
@@ -26,6 +29,9 @@ class Client:
         self.requests = kwargs.get('requests', {})
         self.Auth = auth_for(self)
         self.Token = token_for(self)
+        self._session = requests.session()
+        self._session.headers.update(
+            {'user-agent': 'dwolla-v2-python %s' % version})
 
     def auth(self, opts=None, **kwargs):
         return self.Auth(opts, **kwargs)
