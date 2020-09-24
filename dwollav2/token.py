@@ -1,7 +1,11 @@
 import requests
 from io import IOBase
 import re
-import json
+
+try:
+    import simplejson as json
+except ImportError:
+    import json
 
 from dwollav2.response import Response
 from dwollav2.version import version

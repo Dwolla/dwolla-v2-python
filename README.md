@@ -196,6 +196,9 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **2.2.0**
+  - Update JSON request bodies to serialize via `simplejson` so datatypes like `Decimal` still
+    serialize like they did pre `2.0.0`
 - **2.1.0**
   - Do not share `requests.session()` across instances of `dwollav2.Client`
 - **2.0.0**
