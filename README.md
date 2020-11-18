@@ -1,7 +1,5 @@
 # DwollaV2
 
-![Build Status](https://travis-ci.org/Dwolla/dwolla-v2-python.svg)
-
 Dwolla V2 Python client.
 
 [API Documentation](https://docsv2.dwolla.com)
