@@ -93,8 +93,7 @@ def token_for(_client):
         def _full_url(self, path):
             if isinstance(path, dict):
                 path = path['_links']['self']['href']
-
-            if path.startswith(_client.api_url):
+            if path.startswith(_client.api_url) and _client.api_url[-1] == '/':
                 return path
             elif path.startswith('/'):
                 return _client.api_url + path
