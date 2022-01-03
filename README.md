@@ -194,6 +194,8 @@ The package is available as open source under the terms of the [MIT License](htt
 
 ## Changelog
 
+- **2.2.1**
+  - Add extra check in URL's to ensure they are clean. [#36](https://github.com/Dwolla/dwolla-v2-python/pull/36).
 - **2.2.0**
   - Update JSON request bodies to serialize via `simplejson` so datatypes like `Decimal` still
     serialize like they did pre `2.0.0`
