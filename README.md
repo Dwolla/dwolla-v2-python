@@ -84,6 +84,10 @@ client.Token(access_token = '...',
 # GET api.dwolla.com/resource?foo=bar
 token.get('resource', foo = 'bar')
 
+# GET requests can also use objects as parameters
+# GET api.dwolla.com/resource?foo=bar
+token.get('resource', {'foo' = 'bar', 'baz' = 'foo'})
+
 # POST api.dwolla.com/resource {"foo":"bar"}
 token.post('resource', foo = 'bar')
 
