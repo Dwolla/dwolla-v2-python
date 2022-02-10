@@ -9,7 +9,7 @@ responses = "*"
 mock = "*"
 
 [packages]
-requests = "*"
+requests = "2.27"
 dwollav2 = {editable = true,path = "."}
 
 [requires]
