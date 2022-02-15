@@ -183,10 +183,29 @@ _See https://docsv2.dwolla.com/#errors for more info._
 
 ## Development
 
-After checking out the repo, run `pip install -r requirements.txt` to install dependencies.
-Then, run `python setup.py test` to run the tests.
+After checking out the repo, there are 2 ways to install pip dependencies.
 
-To install this gem onto your local machine, run `pip install -e .`.
+### Using Pipfile
+
+To install pip dependencies using the Pipfile, ensure `pipenv` and `python 3.7` are installed.
+
+In the projects root directory, where the `Pipfile` is located, run the following commands one at a time:
+```
+pipenv install
+pipenv install --dev
+pipenv shell
+```
+
+### Using requirements.txt
+
+To install pip dependencies using the requirements.txt, run the following command:
+```
+pip install -r requirements.txt
+```
+
+Note: depending on your version of python, you may need to run `pip3 install -r requirements.txt` instead.
+
+To run the tests run `python setup.py test` or `python3 setup.py test`
 
 ## Contributing
 
