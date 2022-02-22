@@ -4,12 +4,12 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-unittest2 = "*"
-responses = "*"
-mock = "*"
+unittest2 = ">=1.1"
+responses = ">=0.18"
+mock = ">=2.0"
 
 [packages]
-requests = "2.27"
+requests = "==2.27"
 dwollav2 = {editable = true,path = "."}
 
 [requires]
