@@ -46,10 +46,6 @@ client = dwollav2.Client(
 
 It is highly recommended that you encrypt any token data you store.
 
-### Integrations Authorization
-
-Check out our [Integrations Authorization Guide](https://developers.dwolla.com/integrations/authorization).
-
 ## `Token`
 
 Tokens can be used to make requests to the Dwolla V2 API.
