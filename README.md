@@ -1,26 +1,43 @@
-# DwollaV2
+# Dwolla SDK for Python
 
-Dwolla V2 Python client.
+This repository contains the source code for Dwolla's Python-based SDK, which allows developers to interact with Dwolla's server-side API via a Python API. Any action that can be performed via an HTTP request can be made using this SDK when executed within a server-side environment.
 
-[API Documentation](https://docsv2.dwolla.com)
+### Table of Contents 
 
-## Installation
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Initialization](#initialization)
+    - [Tokens](#tokens)
+- [Making Requests](#making-requests)
+  - [Low-level Requests](#low-level-requests)
+    - [Setting Headers](#setting-headers)
+    - [Responses](#responses)
+      - [Success](#success)
+      - [Error](#error)
+- [Changelog](#changelog)
+- [Community](#community)
+- [Additional Resources](#additional-resources)
 
-`dwollav2` is available on [PyPi](https://pypi.python.org/pypi/dwollav2), and therefore can be installed automagically via [pip](https://pip.pypa.io/en/stable/installing/).
+---
+
+## Getting Started
+
+### Installation
+
+To begin using this SDK, you will first need to download it to your machine. We use [PyPi](https://pypi.python.org/pypi/dwollav2) to distribute this package from where you can automagically download it via [pip](https://pip.pypa.io/en/stable/installing/).
 
 ```
 pip install dwollav2
 ```
 
-## `dwollav2.Client`
+### Initialization
 
-### Basic usage
+Before any API requests can be made, you must first determine which environment you will be using, as well as fetch the application key and secret. To fetch your application key and secret, please visit one of the following links:
 
-Create a client using your application's consumer key and secret found on the applications page
-([Sandbox][apsandbox], [Production][approd]).
+* Production: https://dashboard.dwolla.com/applications
+* Sandbox: https://dashboard-sandbox.dwolla.com/applications
 
-[apsandbox]: https://dashboard-sandbox.dwolla.com/applications
-[approd]: https://dashboard.dwolla.com/applications
+Finally, you can create an instance of `Client` with `key` and `secret` replaced with the application key and secret that you fetched from one of the aforementioned links, respectively.
 
 ```python
 client = dwollav2.Client(
@@ -31,7 +48,7 @@ client = dwollav2.Client(
 )
 ```
 
-### Configure an `on_grant` callback (optional)
+##### Configure an `on_grant` callback (optional)
 
 An `on_grant` callback is useful for storing new tokens when they are granted. The `on_grant`
 callback is called with the `Token` that was just granted by the server.
@@ -46,13 +63,11 @@ client = dwollav2.Client(
 
 It is highly recommended that you encrypt any token data you store.
 
-## `Token`
+#### Tokens
 
-Tokens can be used to make requests to the Dwolla V2 API.
+##### Generating New Access Tokens
 
-### Application tokens
-
-Application access tokens are used to authenticate against the API on behalf of a consumer application. Application tokens can be used to access resources in the API that either belong to the application itself (`webhooks`, `events`, `webhook-subscriptions`) or the partner Account that owns the consumer application (`accounts`, `customers`, `funding-sources`, etc.). Application tokens are obtained by using the [`client_credentials`][client_credentials] OAuth grant type:
+Application access tokens are used to authenticate against the API on behalf of an application. Application tokens can be used to access resources in the API that either belong to the application itself (`webhooks`, `events`, `webhook-subscriptions`) or the Dwolla Account that owns the application (`accounts`, `customers`, `funding-sources`, etc.). Application tokens are obtained by using the [`client_credentials`][client_credentials] OAuth grant type:
 
 [client_credentials]: https://tools.ietf.org/html/rfc6749#section-4.4
 
@@ -60,22 +75,26 @@ Application access tokens are used to authenticate against the API on behalf of 
 application_token = client.Auth.client()
 ```
 
-_Application tokens do not include a `refresh_token`. When an application token expires, generate
-a new one using `client.Auth.client()`._
+_Application access tokens are short-lived: 1 hour. They do not include a `refresh_token`. When it expires, generate a new one using `client.Auth.client()`._
 
-### Initializing pre-existing tokens:
+##### Initializing Pre-Existing Tokens:
 
-`Token`s can be initialized with the following attributes:
+The [Dwolla Sandbox Dashboard](https://dashboard-sandbox.dwolla.com/applications-legacy) allows you to generate `token`s for your application. These tokens can be initialized with the following attributes:
 
 ```python
 client.Token(access_token = '...',
              expires_in = 123)
 ```
 
-## Requests
+## Making Requests
 
-`Token`s can make requests using the `#get`, `#post`, and `#delete` methods.
+Once you've created a `token`, currently, you can make low-level HTTP requests.
 
+### Low-level Requests
+
+To make low-level HTTP requests, you can use the `get()`, `post()`, and `delete()` methods. These methods will return a `Response` object.
+
+#### `GET`
 ```python
 # GET api.dwolla.com/resource?foo=bar
 token.get('resource', foo = 'bar')
@@ -83,16 +102,19 @@ token.get('resource', foo = 'bar')
 # GET requests can also use objects as parameters
 # GET api.dwolla.com/resource?foo=bar
 token.get('resource', {'foo' = 'bar', 'baz' = 'foo'})
+```
 
+#### `POST`
+```python
 # POST api.dwolla.com/resource {"foo":"bar"}
 token.post('resource', foo = 'bar')
 
 # POST api.dwolla.com/resource multipart/form-data foo=...
 token.post('resource', foo = ('mclovin.jpg', open('mclovin.jpg', 'rb'), 'image/jpeg'))
+```
 
-# PUT api.dwolla.com/resource {"foo":"bar"}
-token.put('resource', foo = 'bar')
-
+#### `DELETE`
+```python
 # DELETE api.dwolla.com/resource
 token.delete('resource')
 ```
@@ -108,10 +130,14 @@ token.post('customers', { 'firstName': 'John', 'lastName': 'Doe', 'email': 'jd@d
                         { 'Idempotency-Key': 'a52fcf63-0730-41c3-96e8-7147b5d1fb01' })
 ```
 
-## Responses
+#### Responses
 
-Requests return a `Response`.
+The following snippets demonstrate successful and errored responses from the Dwolla API.
 
+An errored response is returned when Dwolla's servers respond with a status code that is greater than or equal to 400, whereas a successful response is when Dwolla's servers respond with a 200-level status code.
+
+
+##### Success
 ```python
 res = token.get('/')
 
@@ -125,7 +151,7 @@ res.body['_links']['events']['href']
 # => 'https://api-sandbox.dwolla.com/events'
 ```
 
-## Errors
+##### Error
 
 If the server returns an error, a `dwollav2.Error` (or one of its subclasses) will be raised.
 `dwollav2.Error`s are similar to `Response`s.
@@ -145,10 +171,9 @@ except dwollav2.NotFoundError as e:
 except dwollav2.Error:
   # ...
 ```
+###### `dwollav2.Error` subclasses:
 
-### `dwollav2.Error` subclasses:
-
-_See https://docsv2.dwolla.com/#errors for more info._
+_See https://developers.dwolla.com/api-reference#errors for more info._
 
 - `dwollav2.AccessDeniedError`
 - `dwollav2.InvalidCredentialsError`
@@ -176,21 +201,6 @@ _See https://docsv2.dwolla.com/#errors for more info._
 - `dwollav2.ValidationError`
 - `dwollav2.TooManyRequestsError`
 - `dwollav2.ConflictError`
-
-## Development
-
-After checking out the repo, run `pip install -r requirements.txt` to install dependencies.
-Then, run `python setup.py test` to run the tests.
-
-To install this gem onto your local machine, run `pip install -e .`.
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/Dwolla/dwolla-v2-python.
-
-## License
-
-The package is available as open source under the terms of the [MIT License](https://github.com/Dwolla/dwolla-v2-python).
 
 ## Changelog
 
@@ -221,10 +231,32 @@ The package is available as open source under the terms of the [MIT License](htt
 - **1.2.1** Update sandbox URLs from uat => sandbox.
 - **1.2.0** Refer to Client id as key.
 - **1.1.8** Support `verified_account` and `dwolla_landing` auth flags
-- **1.1.7** Use session over connections for [performance improvement](http://docs.python-requests.org/en/master/user/advanced/#session-objects) ([#8](https://github.com/Dwolla/dwolla-v2-python/pull/8) - Thanks @bfeeser!)
+- **1.1.7** Use session over connections for [performance improvement](http://docs.python-requests.org/en/master/user/advanced/#session-objects) ([#8](https://github.com/Dwolla/dwolla-v2-python/pull/8) - Thanks [@bfeeser](https://github.com/bfeeser)!
 - **1.1.5** Fix file upload bug when using with Python 2 ([#6](https://github.com/Dwolla/dwolla-v2-python/issues/6))
 - **1.1.2** Add `TooManyRequestsError` and `ConflictError`
 - **1.1.1** Add MANIFEST.in
 - **1.1.0** Support per-request headers
+
+## Community
+* If you have any feedback, please reach out to us on [our forums](https://discuss.dwolla.com/) or by [creating a GitHub issue](https://github.com/Dwolla/dwolla-v2-node/issues/new).
+* If you would like to contribute to this library, bug reports and pull requests are welcome on GitHub at https://github.com/Dwolla/dwolla-v2-python.
+  * After checking out the repo, run `pip install -r requirements.txt` to install dependencies. Then, run `python setup.py` test to run the tests. 
+  * To install this gem onto your local machine, `run pip install -e .`.
+  
+
+## Additional Resources
+
+To learn more about Dwolla and how to integrate our product with your application, please consider visiting the following resources and becoming a member of our community!
+
+* [Dwolla](https://www.dwolla.com/)
+* [Dwolla Developers](https://developers.dwolla.com/)
+* [SDKs and Tools](https://developers.dwolla.com/sdks-tools)
+  * [Dwolla SDK for C#](https://github.com/Dwolla/dwolla-v2-csharp)
+  * [Dwolla SDK for Kotlin](https://github.com/Dwolla/dwolla-v2-kotlin)
+  * [Dwolla SDK for Node](https://github.com/Dwolla/dwolla-v2-node)
+  * [Dwolla SDK for Ruby](https://github.com/Dwolla/dwolla-v2-ruby)
+* [Developer Support Forum](https://discuss.dwolla.com/)
+
+---
 
 [`idempotency-key`]: https://docs.dwolla.com/#idempotency-key

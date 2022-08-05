@@ -89,3 +89,6 @@ ENV/
 
 # Visual Studio Code
 .vscode/
+
+# IntelliJ Idea
+.idea/
