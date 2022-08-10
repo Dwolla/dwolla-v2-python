@@ -238,7 +238,7 @@ _See https://developers.dwolla.com/api-reference#errors for more info._
 - **1.1.0** Support per-request headers
 
 ## Community
-* If you have any feedback, please reach out to us on [our forums](https://discuss.dwolla.com/) or by [creating a GitHub issue](https://github.com/Dwolla/dwolla-v2-node/issues/new).
+* If you have any feedback, please reach out to us on [our forums](https://discuss.dwolla.com/) or by [creating a GitHub issue](https://github.com/Dwolla/dwolla-v2-python/issues/new).
 * If you would like to contribute to this library, bug reports and pull requests are welcome on GitHub at https://github.com/Dwolla/dwolla-v2-python.
   * After checking out the repo, run `pip install -r requirements.txt` to install dependencies. Then, run `python setup.py` test to run the tests. 
   * To install this gem onto your local machine, `run pip install -e .`.
