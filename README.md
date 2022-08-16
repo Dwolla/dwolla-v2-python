@@ -25,8 +25,8 @@ This repository contains the source code for Dwolla's Python-based SDK, which al
 
 To begin using this SDK, you will first need to download it to your machine. We use [PyPi](https://pypi.python.org/pypi/dwollav2) to distribute this package from where you can automagically download it via [pip](https://pip.pypa.io/en/stable/installing/).
 
-```
-pip install dwollav2
+```shell
+$ pip install dwollav2
 ```
 
 ### Initialization
