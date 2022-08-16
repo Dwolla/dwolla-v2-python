@@ -68,7 +68,6 @@ It is highly recommended that you encrypt any token data you store.
 
 Application access tokens are used to authenticate against the API on behalf of an application. Application tokens can be used to access resources in the API that either belong to the application itself (`webhooks`, `events`, `webhook-subscriptions`) or the Dwolla Account that owns the application (`accounts`, `customers`, `funding-sources`, etc.). Application tokens are obtained by using the [`client_credentials`](https://tools.ietf.org/html/rfc6749#section-4.4) OAuth grant type:
 
-[client_credentials]: https://tools.ietf.org/html/rfc6749#section-4.4
 
 ```python
 application_token = client.Auth.client()
