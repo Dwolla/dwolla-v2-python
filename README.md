@@ -2,7 +2,7 @@
 
 This repository contains the source code for Dwolla's Python-based SDK, which allows developers to interact with Dwolla's server-side API via a Python API. Any action that can be performed via an HTTP request can be made using this SDK when executed within a server-side environment.
 
-### Table of Contents 
+## Table of Contents 
 
 - [Getting Started](#getting-started)
   - [Installation](#installation)
