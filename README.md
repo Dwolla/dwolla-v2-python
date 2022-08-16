@@ -66,7 +66,7 @@ It is highly recommended that you encrypt any token data you store.
 
 ##### Generating New Access Tokens
 
-Application access tokens are used to authenticate against the API on behalf of an application. Application tokens can be used to access resources in the API that either belong to the application itself (`webhooks`, `events`, `webhook-subscriptions`) or the Dwolla Account that owns the application (`accounts`, `customers`, `funding-sources`, etc.). Application tokens are obtained by using the [`client_credentials`][client_credentials] OAuth grant type:
+Application access tokens are used to authenticate against the API on behalf of an application. Application tokens can be used to access resources in the API that either belong to the application itself (`webhooks`, `events`, `webhook-subscriptions`) or the Dwolla Account that owns the application (`accounts`, `customers`, `funding-sources`, etc.). Application tokens are obtained by using the [`client_credentials`](https://tools.ietf.org/html/rfc6749#section-4.4) OAuth grant type:
 
 [client_credentials]: https://tools.ietf.org/html/rfc6749#section-4.4
 
@@ -78,7 +78,7 @@ _Application access tokens are short-lived: 1 hour. They do not include a `refre
 
 ##### Initializing Pre-Existing Tokens:
 
-The [Dwolla Sandbox Dashboard](https://dashboard-sandbox.dwolla.com/applications-legacy) allows you to generate `token`s for your application. These tokens can be initialized with the following attributes:
+The [Dwolla Sandbox Dashboard](https://dashboard-sandbox.dwolla.com/applications-legacy) allows you to generate tokens for your application. A `Token` can be initialized with the following attributes:
 
 ```python
 client.Token(access_token = '...',
@@ -87,7 +87,7 @@ client.Token(access_token = '...',
 
 ## Making Requests
 
-Once you've created a `token`, currently, you can make low-level HTTP requests.
+Once you've created a `Token`, currently, you can make low-level HTTP requests.
 
 ### Low-level Requests
 
@@ -238,7 +238,7 @@ _See https://developers.dwolla.com/api-reference#errors for more info._
 
 ## Community
 * If you have any feedback, please reach out to us on [our forums](https://discuss.dwolla.com/) or by [creating a GitHub issue](https://github.com/Dwolla/dwolla-v2-python/issues/new).
-* If you would like to contribute to this library, bug reports and pull requests are welcome on GitHub at https://github.com/Dwolla/dwolla-v2-python.
+* If you would like to contribute to this library, [bug reports](https://github.com/Dwolla/dwolla-v2-python/issues) and [pull requests](https://github.com/Dwolla/dwolla-v2-python/pulls) are always appreciated!
   * After checking out the repo, run `pip install -r requirements.txt` to install dependencies. Then, run `python setup.py` test to run the tests. 
   * To install this gem onto your local machine, `run pip install -e .`.
   
@@ -253,9 +253,9 @@ To learn more about Dwolla and how to integrate our product with your applicatio
   * [Dwolla SDK for C#](https://github.com/Dwolla/dwolla-v2-csharp)
   * [Dwolla SDK for Kotlin](https://github.com/Dwolla/dwolla-v2-kotlin)
   * [Dwolla SDK for Node](https://github.com/Dwolla/dwolla-v2-node)
+  * [Dwolla SDK for PHP](https://github.com/Dwolla/dwolla-swagger-php)
   * [Dwolla SDK for Ruby](https://github.com/Dwolla/dwolla-v2-ruby)
 * [Developer Support Forum](https://discuss.dwolla.com/)
 
----
 
 [`idempotency-key`]: https://docs.dwolla.com/#idempotency-key
