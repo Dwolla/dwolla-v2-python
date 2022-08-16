@@ -18,7 +18,6 @@ This repository contains the source code for Dwolla's Python-based SDK, which al
 - [Community](#community)
 - [Additional Resources](#additional-resources)
 
----
 
 ## Getting Started
 
