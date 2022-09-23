@@ -2,7 +2,7 @@
 
 This repository contains the source code for Dwolla's Python-based SDK, which allows developers to interact with Dwolla's server-side API via a Python API. Any action that can be performed via an HTTP request can be made using this SDK when executed within a server-side environment.
 
-## Table of Contents 
+## Table of Contents
 
 - [Getting Started](#getting-started)
   - [Installation](#installation)
@@ -18,7 +18,6 @@ This repository contains the source code for Dwolla's Python-based SDK, which al
 - [Community](#community)
 - [Additional Resources](#additional-resources)
 
-
 ## Getting Started
 
 ### Installation
@@ -33,8 +32,8 @@ $ pip install dwollav2
 
 Before any API requests can be made, you must first determine which environment you will be using, as well as fetch the application key and secret. To fetch your application key and secret, please visit one of the following links:
 
-* Production: https://dashboard.dwolla.com/applications
-* Sandbox: https://dashboard-sandbox.dwolla.com/applications
+- Production: https://dashboard.dwolla.com/applications
+- Sandbox: https://dashboard-sandbox.dwolla.com/applications
 
 Finally, you can create an instance of `Client` with `key` and `secret` replaced with the application key and secret that you fetched from one of the aforementioned links, respectively.
 
@@ -68,7 +67,6 @@ It is highly recommended that you encrypt any token data you store.
 
 Application access tokens are used to authenticate against the API on behalf of an application. Application tokens can be used to access resources in the API that either belong to the application itself (`webhooks`, `events`, `webhook-subscriptions`) or the Dwolla Account that owns the application (`accounts`, `customers`, `funding-sources`, etc.). Application tokens are obtained by using the [`client_credentials`](https://tools.ietf.org/html/rfc6749#section-4.4) OAuth grant type:
 
-
 ```python
 application_token = client.Auth.client()
 ```
@@ -93,6 +91,7 @@ Once you've created a `Token`, currently, you can make low-level HTTP requests.
 To make low-level HTTP requests, you can use the `get()`, `post()`, and `delete()` methods. These methods will return a `Response` object.
 
 #### `GET`
+
 ```python
 # GET api.dwolla.com/resource?foo=bar
 token.get('resource', foo = 'bar')
@@ -103,6 +102,7 @@ token.get('resource', {'foo' = 'bar', 'baz' = 'foo'})
 ```
 
 #### `POST`
+
 ```python
 # POST api.dwolla.com/resource {"foo":"bar"}
 token.post('resource', foo = 'bar')
@@ -112,6 +112,7 @@ token.post('resource', foo = ('mclovin.jpg', open('mclovin.jpg', 'rb'), 'image/j
 ```
 
 #### `DELETE`
+
 ```python
 # DELETE api.dwolla.com/resource
 token.delete('resource')
@@ -134,8 +135,8 @@ The following snippets demonstrate successful and errored responses from the Dwo
 
 An errored response is returned when Dwolla's servers respond with a status code that is greater than or equal to 400, whereas a successful response is when Dwolla's servers respond with a 200-level status code.
 
-
 ##### Success
+
 ```python
 res = token.get('/')
 
@@ -169,6 +170,7 @@ except dwollav2.NotFoundError as e:
 except dwollav2.Error:
   # ...
 ```
+
 ###### `dwollav2.Error` subclasses:
 
 _See https://developers.dwolla.com/api-reference#errors for more info._
@@ -236,25 +238,29 @@ _See https://developers.dwolla.com/api-reference#errors for more info._
 - **1.1.0** Support per-request headers
 
 ## Community
-* If you have any feedback, please reach out to us on [our forums](https://discuss.dwolla.com/) or by [creating a GitHub issue](https://github.com/Dwolla/dwolla-v2-python/issues/new).
-* If you would like to contribute to this library, [bug reports](https://github.com/Dwolla/dwolla-v2-python/issues) and [pull requests](https://github.com/Dwolla/dwolla-v2-python/pulls) are always appreciated!
-  * After checking out the repo, run `pip install -r requirements.txt` to install dependencies. Then, run `python setup.py` test to run the tests. 
-  * To install this gem onto your local machine, `run pip install -e .`.
-  
+
+- If you have any feedback, please reach out to us on [our forums](https://discuss.dwolla.com/) or by [creating a GitHub issue](https://github.com/Dwolla/dwolla-v2-python/issues/new).
+- If you would like to contribute to this library, [bug reports](https://github.com/Dwolla/dwolla-v2-python/issues) and [pull requests](https://github.com/Dwolla/dwolla-v2-python/pulls) are always appreciated!
+  - After checking out the repo, run `pip install -r requirements.txt` to install dependencies. Then, run `python setup.py` test to run the tests.
+  - To install this gem onto your local machine, `run pip install -e .`.
+
+## Docker
+
+If you prefer to use Docker to run dwolla-v2-python locally, a Dockerfile is included at the root directory.
+Follow these instructions from [Docker's website](https://docs.docker.com/build/hellobuild/) to create a Docker image from the Dockerfile, and run it.
 
 ## Additional Resources
 
 To learn more about Dwolla and how to integrate our product with your application, please consider visiting the following resources and becoming a member of our community!
 
-* [Dwolla](https://www.dwolla.com/)
-* [Dwolla Developers](https://developers.dwolla.com/)
-* [SDKs and Tools](https://developers.dwolla.com/sdks-tools)
-  * [Dwolla SDK for C#](https://github.com/Dwolla/dwolla-v2-csharp)
-  * [Dwolla SDK for Kotlin](https://github.com/Dwolla/dwolla-v2-kotlin)
-  * [Dwolla SDK for Node](https://github.com/Dwolla/dwolla-v2-node)
-  * [Dwolla SDK for PHP](https://github.com/Dwolla/dwolla-swagger-php)
-  * [Dwolla SDK for Ruby](https://github.com/Dwolla/dwolla-v2-ruby)
-* [Developer Support Forum](https://discuss.dwolla.com/)
-
+- [Dwolla](https://www.dwolla.com/)
+- [Dwolla Developers](https://developers.dwolla.com/)
+- [SDKs and Tools](https://developers.dwolla.com/sdks-tools)
+  - [Dwolla SDK for C#](https://github.com/Dwolla/dwolla-v2-csharp)
+  - [Dwolla SDK for Kotlin](https://github.com/Dwolla/dwolla-v2-kotlin)
+  - [Dwolla SDK for Node](https://github.com/Dwolla/dwolla-v2-node)
+  - [Dwolla SDK for PHP](https://github.com/Dwolla/dwolla-swagger-php)
+  - [Dwolla SDK for Ruby](https://github.com/Dwolla/dwolla-v2-ruby)
+- [Developer Support Forum](https://discuss.dwolla.com/)
 
 [`idempotency-key`]: https://docs.dwolla.com/#idempotency-key
