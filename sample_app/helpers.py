@@ -25,20 +25,21 @@ def display_options():
     retrieve KBA (RKBA)
     verify KBA (VKBA)
     Create beneficial owner (CBO)
-    Reterieve beneficial owner (RBO)
+    Retrieve beneficial owner (RBO)
     list beneficial owners (LBO)
     update beneficial owner (UBO)
     Remove beneficial owner (DBO)
     Retrieve beneficial ownership status (RBOS)
     Certify beneficial ownership (CBOS)
+    Quit (Q)
     '''
     print(action_menu)
 
 def get_user_input():
     return input('Enter your action: ')
 
-def handle_input(input, pk, sk):
-    client = dwollav2.Client(key = pk, secret = sk, environment = 'sandbox')
+def handle_input(input, DWOLLA_APP_KEY, DWOLLA_APP_SECRET):
+    client = dwollav2.Client(key = DWOLLA_APP_KEY, secret = DWOLLA_APP_SECRET, environment = 'sandbox')
     application_token = client.Auth.client()
     if input == 'R':
         root(application_token)
@@ -90,10 +91,15 @@ def handle_input(input, pk, sk):
         retrieve_beneficial_ownership_status(application_token)
     elif input == 'CBOS':
         certify_beneficial_ownership(application_token)
+    elif input == 'Q':
+        quit()
 
 
 def print_response(res):
     print(json.dumps(res.body, indent = 4))
+
+def print_location(res):
+    print(res.headers['Location'])
 
 # ROOT RESOURCE
 def root(token):
@@ -112,8 +118,6 @@ def create_account_funding_source(token):
     bankAccountType = input('Enter your bank account type: ')
     name = input('Enter your funding source nickname: ')
 
-    has_channels = input('Does your funding source have channels? (y/n): ')
-
     body = {
         'routingNumber': routingNumber,
         'accountNumber': accountNumber,
@@ -121,14 +125,8 @@ def create_account_funding_source(token):
         'name': name
     }
 
-    if has_channels == 'y':
-        channels = input('Enter your channels seperated by commas: ')
-        channels = channels.split(',')
-        body['channels'] = channels
-
-
     res = token.post(f'/funding-sources', body)
-    print_response(res)
+    print_location(res)
 
 def create_account_van(token):
     name = input('Enter your account name: ')
@@ -141,7 +139,7 @@ def create_account_van(token):
     }
 
     res = token.post(f'/funding-sources', body)
-    print_response(res)
+    print_location(res)
 
 def list_account_funding_sources(token):
     id = input('Enter your account ID: ')
@@ -173,7 +171,7 @@ def create_receive_only_customer(token):
     }
 
     res = token.post(f'/customers', body)
-    print_response(res)
+    print_location(res)
 
 def create_unverified_customer(token):
     firstName = input('Enter customer first name: ')
@@ -187,7 +185,7 @@ def create_unverified_customer(token):
     }
 
     res = token.post(f'/customers', body)
-    print_response(res)
+    print_location(res)
 
 def create_verified_personal_customer(token):
     firstName = input('Enter customer first name: ')
@@ -215,7 +213,7 @@ def create_verified_personal_customer(token):
     }
 
     res = token.post(f'/customers', body)
-    print_response(res)
+    print_location(res)
 
 def retrieve_customer(token):
     id = input('Enter customer ID: ')
@@ -228,26 +226,10 @@ def list_and_search_customers(token):
 
 def update_customer(token):
     id = input('Enter customer ID: ')
-    firstName = input('Enter customer first name: ')
-    lastName = input('Enter customer last name: ')
-    email = input('Enter customer email: ')
-    address1 = input('Enter customer address 1: ')
-    city = input('Enter customer city: ')
-    state = input('Enter customer state: ')
-    postalCode = input('Enter customer postal code: ')
-    dateOfBirth = input('Enter customer date of birth: ')
-    ssn = input('Enter customer ssn: ')
+    email = input('Enter updated customer email: ')
 
     body = {
-        'firstName': firstName,
-        'lastName': lastName,
         'email': email,
-        'address1': address1,
-        'city': city,
-        'state': state,
-        'postalCode': postalCode,
-        'dateOfBirth': dateOfBirth,
-        'ssn': ssn,
     }
 
     res = token.post(f'/customers/{id}', body)
@@ -266,7 +248,7 @@ def retrieve_business_classification(token):
 def initiate_kba(token):
     id = input('Enter customer ID: ')
     res = token.post(f'/customers/{id}/kba')
-    print_response(res)
+    print_location(res)
 
 def retrieve_kba(token):
     id = input('Enter KBA session ID: ')
@@ -302,6 +284,7 @@ def create_beneficial_owner(token):
     address1 = input('Enter beneficial owner address 1: ')
     city = input('Enter beneficial owner city: ')
     state = input('Enter beneficial owner state: ')
+    country = input('Enter beneficial owner country: ')
     postalCode = input('Enter beneficial owner postal code: ')
 
     body = {
@@ -309,14 +292,17 @@ def create_beneficial_owner(token):
         'lastName': lastName,
         'dateOfBirth': dateOfBirth,
         'ssn': ssn,
-        'address1': address1,
-        'city': city,
-        'state': state,
-        'postalCode': postalCode
+        'address': {
+            'address1': address1,
+            'city': city,
+            'stateProvinceRegion': state,
+            'country': country,
+            'postalCode': postalCode
+        }
     }
 
     res = token.post(f'/customers/{id}/beneficial-owners', body)
-    print_response(res)
+    print_location(res)
 
 def retrieve_beneficial_owner(token):
     id = input('Enter beneficial owner ID: ')
@@ -337,6 +323,7 @@ def update_beneficial_owner(token):
     address1 = input('Enter beneficial owner address 1: ')
     city = input('Enter beneficial owner city: ')
     state = input('Enter beneficial owner state: ')
+    country = input('Enter beneficial owner country: ')
     postalCode = input('Enter beneficial owner postal code: ')
 
     body = {
@@ -344,10 +331,13 @@ def update_beneficial_owner(token):
         'lastName': lastName,
         'dateOfBirth': dateOfBirth,
         'ssn': ssn,
-        'address1': address1,
-        'city': city,
-        'state': state,
-        'postalCode': postalCode
+        'address': {
+            'address1': address1,
+            'city': city,
+            'stateProvinceRegion': state,
+            'country': country,
+            'postalCode': postalCode
+        }
     }
 
     res = token.post(f'/beneficial-owners/{id}', body)
