@@ -14,6 +14,7 @@ This repository contains the source code for Dwolla's Python-based SDK, which al
     - [Responses](#responses)
       - [Success](#success)
       - [Error](#error)
+  - [Example App](#example-app)
 - [Changelog](#changelog)
 - [Community](#community)
 - [Additional Resources](#additional-resources)
@@ -201,6 +202,13 @@ _See https://developers.dwolla.com/api-reference#errors for more info._
 - `dwollav2.ValidationError`
 - `dwollav2.TooManyRequestsError`
 - `dwollav2.ConflictError`
+
+### Example App
+
+Take a look at the
+[Sample Application](https://github.com/Dwolla/dwolla-v2-python/tree/main/sample_app) for examples
+on how to use this SDK to call the Dwolla API. Before you can begin using the app, however,
+you will need to specify a `DWOLLA_APP_KEY` and `DWOLLA_APP_SECRET` environment variable.
 
 ## Changelog
 
