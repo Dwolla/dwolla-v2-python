@@ -1,10 +1,10 @@
-import unittest2
+import unittest
 import responses
 
 import dwollav2
 
 
-class ClientShould(unittest2.TestCase):
+class ClientShould(unittest.TestCase):
     id = 'client-id'
     secret = 'client-secret'
 

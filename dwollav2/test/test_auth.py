@@ -1,4 +1,4 @@
-import unittest2
+import unittest
 import responses
 from mock import Mock
 try:
@@ -9,7 +9,7 @@ except ImportError:
 import dwollav2
 
 
-class AuthShould(unittest2.TestCase):
+class AuthShould(unittest.TestCase):
     client = dwollav2.Client(id='id', secret='secret', on_grant=Mock())
     redirect_uri = 'redirect uri'
     scope = 'scope'
