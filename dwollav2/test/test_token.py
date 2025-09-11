@@ -1,3 +1,4 @@
+import decimal
 import unittest
 import responses
 
@@ -163,3 +164,15 @@ class TokenShould(unittest.TestCase):
         res = token.delete('foo', None, self.more_headers)
         self.assertEqual(200, res.status)
         self.assertEqual({'foo': 'bar'}, res.body)
+
+    @responses.activate
+    def test_post_decimal(self):
+        responses.add(responses.POST,
+                      self.client.api_url + '/foo',
+                      body='{"amount": "12.34"}',
+                      status=200,
+                      content_type='application/vnd.dwolla.v1.hal+json')
+        token = self.client.Token(access_token=self.access_token)
+        res = token.post('foo', body={'amount': decimal.Decimal('12.34')})
+        self.assertEqual(200, res.status)
+        self.assertEqual({'amount': '12.34'}, res.body)
