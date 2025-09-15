@@ -1,10 +1,10 @@
-import unittest2
+import unittest
 import requests
 
 import dwollav2
 
 
-class ErrorShould(unittest2.TestCase):
+class ErrorShould(unittest.TestCase):
     def test_maps_string_to_generic_error(self):
         error = 'foo'
         with self.assertRaises(dwollav2.Error) as ecm:

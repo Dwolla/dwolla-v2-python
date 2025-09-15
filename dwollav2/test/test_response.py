@@ -1,10 +1,10 @@
-import unittest2
+import unittest
 import requests
 
 import dwollav2
 
 
-class ResponseShould(unittest2.TestCase):
+class ResponseShould(unittest.TestCase):
     def test_raises_error_if_over_400(self):
         res = requests.Response()
         res.status_code = 400

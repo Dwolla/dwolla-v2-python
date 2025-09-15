@@ -1,10 +1,10 @@
-import unittest2
+import unittest
 import responses
 
 import dwollav2
 
 
-class TokenShould(unittest2.TestCase):
+class TokenShould(unittest.TestCase):
     client = dwollav2.Client(id='id', secret='secret')
     access_token = 'access token'
     refresh_token = 'refresh token'
