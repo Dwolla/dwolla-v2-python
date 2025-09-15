@@ -13,7 +13,6 @@ setup(
     packages=['dwollav2'],
     install_requires=[
         'requests>=2.9.1',
-        'future>=0.15.2'
     ],
     test_suite='dwollav2.test.all',
     url='https://docsv2.dwolla.com',
