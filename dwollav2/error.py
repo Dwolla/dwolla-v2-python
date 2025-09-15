@@ -48,7 +48,8 @@ class Error(Exception):
             'method_not_allowed':        MethodNotAllowedError,
             'ValidationError':           ValidationError,
             'TooManyRequests':           TooManyRequestsError,
-            'Conflict':                  ConflictError
+            'Conflict':                  ConflictError,
+            'UpdateCredentials':         UpdateCredentialsError,
         }.get(c, Error)(res)
 
     def _get_body(self, res):
@@ -156,3 +157,8 @@ class TooManyRequestsError(Error):
 
 class ConflictError(Error):
     pass
+
+
+class UpdateCredentialsError(Error):
+    pass
+

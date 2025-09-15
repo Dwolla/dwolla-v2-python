@@ -212,6 +212,11 @@ you will need to specify a `DWOLLA_APP_KEY` and `DWOLLA_APP_SECRET` environment 
 
 ## Changelog
 
+- **2.3.0**
+  - Remove hidden dependency on `simplejson`. Replace conditional `simplejson` import with explicit `DecimalEncoder` using standard library `json` module for consistent cross-environment behavior. Fixes [#55](https://github.com/Dwolla/dwolla-v2-python/issues/55). ([#56](https://github.com/Dwolla/dwolla-v2-python/pull/56) - Thanks [@robotadam](https://github.com/robotadam)!)
+  - Update test suite from `unittest2` to standard library `unittest` for modern Python compatibility. ([#54](https://github.com/Dwolla/dwolla-v2-python/pull/54) - Thanks [@robotadam](https://github.com/robotadam)!)
+  - Remove unused `future` dependency for cleaner dependency management. Fixes [#52](https://github.com/Dwolla/dwolla-v2-python/issues/52). ([#53](https://github.com/Dwolla/dwolla-v2-python/pull/53) Thanks [@robotadam](https://github.com/robotadam)!)
+  - Add `UpdateCredentialsError` class for handling credential update scenarios in Open Banking integrations. Developers can now catch specific `UpdateCredentialsError` exceptions instead of generic `Error` when exchange sessions need re-authentication. Fixes [#50](https://github.com/Dwolla/dwolla-v2-python/issues/50)
 - **2.2.1**
   - Add extra check in URL's to ensure they are clean. [#36](https://github.com/Dwolla/dwolla-v2-python/pull/36).
 - **2.2.0**
