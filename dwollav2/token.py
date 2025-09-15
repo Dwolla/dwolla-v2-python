@@ -1,14 +1,18 @@
 import requests
 from io import IOBase
 import re
-
-try:
-    import simplejson as json
-except ImportError:
-    import json
+import json
+import decimal
 
 from dwollav2.response import Response
 from dwollav2.version import version
+
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, decimal.Decimal):
+            return str(o)
+        return super().default(o)
 
 
 def _items_or_iteritems(o):
@@ -74,7 +78,7 @@ def token_for(_client):
                     self._full_url(url),
                     headers=self._merge_dicts(
                         {'content-type': 'application/json'}, headers),
-                    data=json.dumps(body, sort_keys=True, indent=2),
+                    data=json.dumps(body, sort_keys=True, indent=2, cls=DecimalEncoder),
                     **requests))
 
         def get(self, url, params=None, headers={}, **kwargs):
