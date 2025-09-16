@@ -57,6 +57,7 @@ class ErrorShould(unittest.TestCase):
         self._test_maps_code_to_error('ValidationError', dwollav2.ValidationError)
         self._test_maps_code_to_error('TooManyRequests', dwollav2.TooManyRequestsError)
         self._test_maps_code_to_error('Conflict', dwollav2.ConflictError)
+        self._test_maps_code_to_error('UpdateCredentials', dwollav2.UpdateCredentialsError)
 
     def _test_maps_code_to_error(self, code, klass):
         error = {'error': code}
